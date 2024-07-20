@@ -15,7 +15,7 @@ function UserReg() {
     id: "",
     name: "",
     email: "",
-    dateofbirth: Date.now(),
+    dateofbirth: "",
     gender: "",
     number: "",
     type: "",
@@ -32,7 +32,7 @@ function UserReg() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/regester", {
+      const response = await fetch("https://zenvestapi.onrender.com/regester", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
