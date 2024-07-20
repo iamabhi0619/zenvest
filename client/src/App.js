@@ -1,11 +1,15 @@
-
-import RegForm from './components/RegForm';
+import Home from "./components/Home";
+import UserReg from "./components/UserReg";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <RegForm />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/newreg" element={<UserReg />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
