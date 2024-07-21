@@ -1,6 +1,9 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs');
-const htmlcode = fs.readFileSync('./regester.html','utf-8');
+const path = require('path');
+
+const htmlpath = path.join(__dirname, 'register.html');
+const htmlcode = fs.readFileSync(htmlpath,'utf-8');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
