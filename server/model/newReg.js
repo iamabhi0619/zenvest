@@ -13,7 +13,9 @@ const newRegSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  userimg: String,
+  work: String,
 });
 
 exports.newReg = mongoose.model('New-Registration',newRegSchema)

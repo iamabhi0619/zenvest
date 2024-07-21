@@ -9,9 +9,11 @@ import FormLabel from "@mui/material/FormLabel";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import app from "../firebase";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 function UserReg() {
-  let form = {
+  const form = {
     id: "",
     name: "",
     email: "",
@@ -20,8 +22,16 @@ function UserReg() {
     number: "",
     type: "",
     interest: "",
+    userimg: "",
+    work: "",
   };
+
   const [formData, setFormData] = useState(form);
+  const [isUserImgDisabled, setIsUserImgDisabled] = useState(false);
+  const [isWorkDisabled, setIsWorkDisabled] = useState(false);
+  const [formSubmit, setFormSubmit] = useState(false);
+  const [apiWork, setApiWork] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -29,8 +39,38 @@ function UserReg() {
       [name]: value,
     });
   };
+
+  async function handleUpload(e) {
+    try {
+      const file = e.target.files[0];
+      const folder = e.target.name;
+      if (file) {
+        setFormSubmit(!formSubmit);
+        const storage = getStorage(app);
+        const storageref = ref(storage, `${folder}/${formData.id}`);
+        await uploadBytes(storageref, file);
+        const downloadURL = await getDownloadURL(storageref);
+        setFormData({
+          ...formData,
+          [folder]: downloadURL,
+        });
+        console.log(downloadURL);
+        if (folder === "userimg") {
+          setIsUserImgDisabled(true);
+        } else if (folder === "work") {
+          setIsWorkDisabled(true);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFormSubmit(false);
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setApiWork(true);
     try {
       const response = await fetch("https://zenvestapi.onrender.com/regester", {
         method: "POST",
@@ -43,14 +83,18 @@ function UserReg() {
       if (result.status === "ok") {
         window.alert("Welcome to Team Zenvest..!!");
         setFormData(form);
+        window.relode();
       } else {
-        window.alert("Please Enter the correct data..!!")
+        window.alert("Please Enter the correct data..!!");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      window.alert("Sorry Server is not responding..!!")
+      window.alert("Sorry, the server is not responding..!!");
+    } finally {
+      setApiWork(false);
     }
   };
+
   return (
     <div
       className="flex min-h-screen justify-center"
@@ -58,10 +102,10 @@ function UserReg() {
     >
       <div className="max-w-sm">
         <div className="rounded-xl shadow-lg">
-          <div className=" py-6 px-5">
+          <div className="py-6 px-5">
             <h2 className="text-3xl mb-4">Welcome to Team Zenvest..!!</h2>
             <form onSubmit={handleSubmit}>
-              <div className="mt-2 ">
+              <div className="mt-2">
                 <TextField
                   fullWidth
                   name="id"
@@ -185,10 +229,32 @@ function UserReg() {
                   </Select>
                 </FormControl>
               </div>
-              <div className="mt-2"></div>
-              <div className="mt-4 text-center">
-                <button className="button-89" typeof="submit">
-                  Submit
+              <div className="flex flex-col mt-2 justify-between">
+                <div className="flex flex-col items-start">
+                  <input
+                    type="file"
+                    onChange={handleUpload}
+                    name="userimg"
+                    accept="image/*"
+                    disabled={isUserImgDisabled}
+                    placeholder="Uploded"
+                  />
+                  <p>{!formSubmit ? "Upload Your photo" : "Uploding..."}</p>
+                </div>
+                <div className="flex flex-col items-start">
+                  <input
+                    type="file"
+                    onChange={handleUpload}
+                    name="work"
+                    accept="image/*"
+                    disabled={isWorkDisabled}
+                  />
+                  <p>Upload Your work</p>
+                </div>
+              </div>
+              <div className={!formSubmit ? "mt-4 text-center" : "hidden"}>
+                <button className="button-89" type="submit">
+                  {apiWork ? "Submiting....." : "Submit"}
                 </button>
               </div>
             </form>
