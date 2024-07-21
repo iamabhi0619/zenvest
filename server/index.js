@@ -1,8 +1,9 @@
-const express = require('express')
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 const morgan = require("morgan");
-const mongoose = require('mongoose');
-const newReg = require('./model/newReg').newReg
+const mongoose = require("mongoose");
+const newReg = require("./model/newReg").newReg;
+const { sendEmail } = require("./emails/regester");
 
 const app = express();
 
@@ -10,28 +11,42 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("default"));
 
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));
 async function main() {
-  await mongoose.connect('mongodb+srv://zenvestofficial:jeglHTfnySaq5LB7@zenvest-cluster0.vqxmhdq.mongodb.net/zenvest');
+  await mongoose.connect(
+    "mongodb+srv://zenvestofficial:jeglHTfnySaq5LB7@zenvest-cluster0.vqxmhdq.mongodb.net/zenvest"
+  );
   console.log("Database connected...!");
 }
+const data = {
+  email: "iamabhi0619@gmail.com",
+  name: "Abhishek Kumar",
+};
 
-app.get('/',(req,res) => {
+app.get("/", (req, res) => {
   res.json("Hello");
-})
+  sendEmail(data).then(() => {
+    console.log("Sent");
+  });
+});
 
-app.post('/regester', async(req,res) => {
+app.post("/regester", async (req, res) => {
   try {
     const data = new newReg(req.body);
     const savedata = await data.save();
     console.log("New user added");
-    res.json({status:"ok"})
+    console.log(savedata);
+    sendEmail(data).then(() => {
+      console.log("Sent Email");
+    });
+    res.json({ status: "ok" });
   } catch (err) {
     console.log(err);
-    res.json({status:"error"})
+    res.json({ status: "error" });
   }
-})
+});
 
-app.listen(5000, ()=>{
+const PORT = process.env.PORT || 5000;
+app.listen(5000, () => {
   console.log("Server Started Port 5000");
-})
+});
