@@ -72,7 +72,7 @@ function UserReg() {
     e.preventDefault();
     setApiWork(true);
     try {
-      const response = await fetch("https://zenvestapi.vercel.app/regester", {
+      const response = await fetch("https://zenvestapi.onrender.com//regester", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
