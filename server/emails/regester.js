@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 
-const htmlpath = path.join(__dirname, 'register.html');
+const htmlpath = path.join(__dirname, 'regester.html');
 const htmlcode = fs.readFileSync(htmlpath,'utf-8');
 
 const transporter = nodemailer.createTransport({
