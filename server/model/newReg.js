@@ -8,7 +8,7 @@ const newRegSchema = new Schema({
   dateofbirth: Date,
   gender: String,
   number: Number,
-  type: String,
+  course: String,
   interest: String,
   date: {
     type: Date,

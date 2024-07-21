@@ -20,7 +20,7 @@ function UserReg() {
     dateofbirth: "",
     gender: "",
     number: "",
-    type: "",
+    course: "",
     interest: "",
     userimg: "",
     work: "",
@@ -83,7 +83,7 @@ function UserReg() {
       if (result.status === "ok") {
         window.alert("Welcome to Team Zenvest..!!");
         setFormData(form);
-        window.relode();
+        window.location.reload();
       } else {
         window.alert("Please Enter the correct data..!!");
       }
@@ -190,15 +190,19 @@ function UserReg() {
                   <InputLabel id="membertype">Membership Type</InputLabel>
                   <Select
                     labelId="membertype"
-                    name="type"
+                    name="course"
                     value={formData.type}
-                    label="Membership Type"
+                    label="Course"
                     onChange={handleChange}
                     required
                   >
-                    <MenuItem value="Regular">Regular</MenuItem>
-                    <MenuItem value="Student">Student</MenuItem>
-                    <MenuItem value="Event">Only Event</MenuItem>
+                    <MenuItem value="B.Tech">B.Tech</MenuItem>
+                    <MenuItem value="BBA">BBA</MenuItem>
+                    <MenuItem value="MBA">MBA</MenuItem>
+                    <MenuItem value="B.Sc">B.Sc</MenuItem>
+                    <MenuItem value="M.Sc">M.Sc</MenuItem>
+                    <MenuItem value="Bio-Tech">Bio Tech</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
                   </Select>
                 </FormControl>
               </div>
@@ -249,7 +253,7 @@ function UserReg() {
                     accept="image/*"
                     disabled={isWorkDisabled}
                   />
-                  <p>Upload Your work</p>
+                  <p>{!formSubmit ? "Upload Your photo" : "Uploding..."}</p>
                 </div>
               </div>
               <div className={!formSubmit ? "mt-4 text-center" : "hidden"}>
