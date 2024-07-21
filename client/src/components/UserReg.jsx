@@ -187,9 +187,9 @@ function UserReg() {
               </div>
               <div className="mt-2">
                 <FormControl fullWidth>
-                  <InputLabel id="membertype">Membership Type</InputLabel>
+                  <InputLabel id="course">Course</InputLabel>
                   <Select
-                    labelId="membertype"
+                    labelId="course"
                     name="course"
                     value={formData.type}
                     label="Course"
