@@ -3,7 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const newReg = require("./model/newReg").newReg;
-const { sendEmail } = require("./emails/regester");
+const { sendEmail } = require("/emails/regester");
 
 const app = express();
 
