@@ -28,7 +28,6 @@ app.post("/regester", async (req, res) => {
     const data = new newReg(req.body);
     const savedata = await data.save();
     console.log("New user added");
-    console.log(savedata);
     sendEmail(savedata).then(() => {
       console.log("Sent Email");
     });
