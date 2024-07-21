@@ -18,16 +18,9 @@ async function main() {
   );
   console.log("Database connected...!");
 }
-const data = {
-  email: "iamabhi0619@gmail.com",
-  name: "Abhishek Kumar",
-};
 
 app.get("/", (req, res) => {
   res.json("Hello");
-  sendEmail(data).then(() => {
-    console.log("Sent");
-  });
 });
 
 app.post("/regester", async (req, res) => {
@@ -36,7 +29,7 @@ app.post("/regester", async (req, res) => {
     const savedata = await data.save();
     console.log("New user added");
     console.log(savedata);
-    sendEmail(data).then(() => {
+    sendEmail(savedata).then(() => {
       console.log("Sent Email");
     });
     res.json({ status: "ok" });
