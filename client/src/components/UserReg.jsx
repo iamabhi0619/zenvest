@@ -81,7 +81,7 @@ function UserReg() {
       });
       const result = await response.json();
       if (result.status === "ok") {
-        window.alert(`Thanks for Registering..!!\nCheck Your mail for update..!!`);
+        window.alert(`Thanks for Registering..!!\nCheck Your mail for updates`);
         setFormData(form);
         window.location.reload();
       } else {
