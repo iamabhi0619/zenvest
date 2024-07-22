@@ -30,6 +30,8 @@ app.post("/regester", async (req, res) => {
     console.log("New user added");
     sendEmail(savedata).then(() => {
       console.log("Sent Email");
+    }).catch((err) => {
+      console.log(err);
     });
     res.json({ status: "ok" });
   } catch (err) {
