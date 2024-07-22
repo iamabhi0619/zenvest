@@ -195,7 +195,7 @@ function UserDetails() {
                       name="remarks"
                       className="border-2 border-black bg-red-100 h-24"
                       onChange={(e) => setRemarks(e.target.value)}
-                      value={data.remarks}
+                      value={remarks}
                       required
                     />
                   </div>
