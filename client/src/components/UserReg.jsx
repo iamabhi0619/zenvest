@@ -1,14 +1,5 @@
 import "./UserReg.css";
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import app from "../firebase";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
@@ -27,10 +18,12 @@ function UserReg() {
   };
 
   const [formData, setFormData] = useState(form);
-  const [isUserImgDisabled, setIsUserImgDisabled] = useState(false);
-  const [isWorkDisabled, setIsWorkDisabled] = useState(false);
   const [formSubmit, setFormSubmit] = useState(false);
   const [apiWork, setApiWork] = useState(false);
+  const [userimg, setUserimg] = useState(false);
+  const [work, setWork] = useState(false);
+  const [userimgs, setUserimgs] = useState("");
+  const [works, setWorks] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,8 +37,13 @@ function UserReg() {
     try {
       const file = e.target.files[0];
       const folder = e.target.name;
+      if (folder === "userimg") {
+        setUserimgs("Uploading...");
+      } else if (folder === "work") {
+        setWorks("Uploading...");
+      }
       if (file) {
-        setFormSubmit(!formSubmit);
+        setFormSubmit(true);
         const storage = getStorage(app);
         const storageref = ref(storage, `${folder}/${formData.id}`);
         await uploadBytes(storageref, file);
@@ -56,9 +54,11 @@ function UserReg() {
         });
         console.log(downloadURL);
         if (folder === "userimg") {
-          setIsUserImgDisabled(true);
+          setUserimg(true);
+          setUserimgs("Uploaded");
         } else if (folder === "work") {
-          setIsWorkDisabled(true);
+          setWork(true);
+          setWorks("Uploaded");
         }
       }
     } catch (error) {
@@ -96,176 +96,176 @@ function UserReg() {
   };
 
   return (
-    <div
-      className="flex min-h-screen justify-center"
-      style={{ backgroundImage: "linear-gradient(15deg, #29E7CD, #FFFBFC)" }}
-    >
-      <div className="max-w-sm">
-        <div className="rounded-xl shadow-lg">
-          <div className="py-6 px-5">
-            <h2 className="text-3xl mb-4">Welcome to Team Zenvest..!!</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="mt-2">
-                <TextField
-                  fullWidth
-                  name="id"
-                  label="Registration Number"
-                  type="number"
-                  value={formData.id}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="mt-2">
-                <TextField
-                  fullWidth
-                  name="name"
-                  label="Full Name"
-                  type="text"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="mt-2">
-                <TextField
-                  fullWidth
-                  name="dateofbirth"
-                  label="Date of Birth"
-                  type="date"
-                  InputLabelProps={{ shrink: true }}
-                  value={formData.dateofbirth}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="mt-2">
-                <FormControl>
-                  <FormLabel name="gender">Gender</FormLabel>
-                  <RadioGroup
-                    row
-                    aria-labelledby="gender"
-                    name="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    required
-                  >
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                    />
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </div>
-              <div className="mt-2">
-                <TextField
-                  fullWidth
-                  name="email"
-                  label="Email Address"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="mt-2">
-                <TextField
-                  fullWidth
-                  name="number"
-                  label="WhatsApp Number"
-                  type="tel"
-                  value={formData.number}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="mt-2">
-                <FormControl fullWidth>
-                  <InputLabel id="course">Course</InputLabel>
-                  <Select
-                    labelId="course"
-                    name="course"
-                    value={formData.type}
-                    label="Course"
-                    onChange={handleChange}
-                    required
-                  >
-                    <MenuItem value="B.Tech">B.Tech</MenuItem>
-                    <MenuItem value="BBA">BBA</MenuItem>
-                    <MenuItem value="MBA">MBA</MenuItem>
-                    <MenuItem value="B.Sc">B.Sc</MenuItem>
-                    <MenuItem value="M.Sc">M.Sc</MenuItem>
-                    <MenuItem value="Bio-Tech">Bio Tech</MenuItem>
-                    <MenuItem value="Other">Other</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="mt-2">
-                <FormControl fullWidth>
-                  <InputLabel id="interest">Interests/Preferences</InputLabel>
-                  <Select
-                    labelId="interest"
-                    name="interest"
-                    value={formData.interest}
-                    label="Interests/Preferences"
-                    onChange={handleChange}
-                    required
-                  >
-                    <MenuItem value="Graphic designing & Video editing">
-                      Graphic designing & Video editing
-                    </MenuItem>
-                    <MenuItem value="Social media & Content writing">
-                      Social media & Content writing
-                    </MenuItem>
-                    <MenuItem value="Technical team">Technical team</MenuItem>
-                    <MenuItem value="Event management & Marketing">
-                      Event management & Marketing
-                    </MenuItem>
-                    <MenuItem value="Public Speaking">Public Speaking</MenuItem>
-                    <MenuItem value="Fine Arts">Fine Arts</MenuItem>
-                    <MenuItem value="Photography">Photography</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="flex flex-col mt-2 justify-between">
-                <div className="flex flex-col items-start">
-                  <input
-                    type="file"
-                    onChange={handleUpload}
-                    name="userimg"
-                    accept="image/*"
-                    disabled={isUserImgDisabled}
-                    placeholder="Uploded"
-                  />
-                  <p>{!formSubmit ? "Upload Your photo" : "Uploding..."}</p>
-                </div>
-                <div className="flex flex-col items-start">
-                  <input
-                    type="file"
-                    onChange={handleUpload}
-                    name="work"
-                    accept="image/*"
-                    disabled={isWorkDisabled}
-                  />
-                  <p>{!formSubmit ? "Upload Your photo" : "Uploding..."}</p>
-                </div>
-              </div>
-              <div className={!formSubmit ? "mt-4 text-center" : "hidden"}>
-                <button className="button-89" type="submit">
-                  {apiWork ? "Submiting....." : "Submit"}
-                </button>
-              </div>
-            </form>
+    <>
+      <section className="container">
+        <div className="flex flex-row	sm:pl-14 sm:pr-14 items-center">
+          <div className="max-h-20 sm:max-h-24 max-w-20 sm:max-w-24">
+            <img src="https://firebasestorage.googleapis.com/v0/b/zenvest-8f417.appspot.com/o/Designer%20(7).png?alt=media&token=1902f931-1d5f-4319-8a94-1348094d756f" alt="" className="rounded-full mr-14" />
+          </div>
+          <div className="pl-1 sm:pl-14">
+            <header className="text-2xl sm:text-4xl pb-3">Registration Form</header>
+            <header className=" text-lg sm:text-2xl">Welcome to Team Zenvest</header>
           </div>
         </div>
-      </div>
-    </div>
+
+        <form onSubmit={handleSubmit} className="form">
+          <div className="input-box">
+            <label>Registration Number</label>
+            <input
+              type="number"
+              value={formData.id}
+              placeholder="Enter Your Registration Number"
+              name="id"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="input-box">
+            <label>Full Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter Full Name"
+              required
+            />
+          </div>
+          <div className="input-box">
+            <label>Email Address</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Enter Email Address"
+              required
+            />
+          </div>
+          <div className="gender-box">
+            <h3>Gender</h3>
+            <div className="gender-option">
+              <div className="gender">
+                <input
+                  type="radio"
+                  value="Male"
+                  onChange={handleChange}
+                  id="check-male"
+                  name="gender"
+                />
+                <label htmlFor="check-male">Male</label>
+              </div>
+              <div className="gender">
+                <input
+                  type="radio"
+                  id="check-female"
+                  onChange={handleChange}
+                  name="gender"
+                  value="Female"
+                />
+                <label htmlFor="check-female">Female</label>
+              </div>
+            </div>
+          </div>
+          <div className="column">
+            <div className="input-box">
+              <label>Phone Number</label>
+              <input
+                type="number"
+                value={formData.number}
+                onChange={handleChange}
+                name="number"
+                placeholder="Enter phone number"
+                required
+              />
+            </div>
+            <div className="input-box">
+              <label>Birth Date</label>
+              <input
+                type="date"
+                name="dateofbirth"
+                value={formData.dateofbirth}
+                onChange={handleChange}
+                placeholder="Enter birth date"
+                required
+              />
+            </div>
+          </div>
+          <div className="input-box">
+            <label>Courses</label>
+            <div className="select-box">
+              <select onChange={handleChange} name="course" required>
+                <option hidden>Select your Course</option>
+                <option value="B.Tech">B.Tech</option>
+                <option value="BBA">BBA</option>
+                <option value="MBA">MBA</option>
+                <option value="B.Sc">B.Sc</option>
+                <option value="M.Sc">M.Sc</option>
+                <option value="BioTech">BioTech</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div className="input-box">
+              <label>Interest</label>
+              <div className="select-box">
+                <select onChange={handleChange} name="interest" required>
+                  <option hidden>Your Field Of Interest</option>
+                  <option value="Graphic Design And Video Editing">
+                    Graphic Design And Video Editing
+                  </option>
+                  <option value="Social Media and Content Creation">
+                    Social Media and Content Creation
+                  </option>
+                  <option value="Technical Team">Technical Team</option>
+                  <option value="Event Management and Marketing">
+                    Event Management and Marketing
+                  </option>
+                  <option value="Public Speaking">Public Speaking</option>
+                  <option value="Fine Arts">Fine Arts</option>
+                  <option value="Photography">Photography</option>
+                </select>
+              </div>
+            </div>
+            <div className="file-container">
+              <label>Photo </label>
+              <div className="flex items-center">
+                <input
+                  type="file"
+                  className="file-input"
+                  onChange={handleUpload}
+                  name="userimg"
+                  accept="image/*"
+                  disabled={userimg}
+                />
+                <p className="ml-24">{userimgs}</p>
+              </div>
+            </div>
+            <div className="">
+              <label>Previous Work </label>
+              <div className="flex items-center">
+                <input
+                  type="file"
+                  className="w-fit"
+                  name="work"
+                  onChange={handleUpload}
+                  accept="audio/*,video/*,image/*,.pdf"
+                  disabled={work}
+                />
+                <p className="ml-24">{works}</p>
+              </div>
+            </div>
+          </div>
+          <button
+            disabled={formSubmit}
+            type="submit"
+            className={formSubmit ? "hidden" : ""}
+          >
+            {!apiWork ? "Submit" : "Submitting..."}
+          </button>
+        </form>
+      </section>
+    </>
   );
 }
 
