@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const newRegSchema = new Schema({
-  id: Number,
+  id: {
+    type: Number,
+    unique: true
+  },
   name: String,
   email: String,
   dateofbirth: Date,
@@ -16,6 +19,14 @@ const newRegSchema = new Schema({
   },
   userimg: String,
   work: String,
+  status: {
+    type: String,
+    default: "1"
+  },
+  remarks : {
+    type: String,
+    default: ""
+  }
 });
 
 exports.newReg = mongoose.model('New-Registration',newRegSchema)

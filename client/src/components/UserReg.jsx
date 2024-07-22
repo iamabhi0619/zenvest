@@ -81,7 +81,7 @@ function UserReg() {
       });
       const result = await response.json();
       if (result.status === "ok") {
-        window.alert("Welcome to Team Zenvest..!!");
+        window.alert(`Thanks for Registering..!!\nCheck Your mail for update..!!`);
         setFormData(form);
         window.location.reload();
       } else {
@@ -96,7 +96,7 @@ function UserReg() {
   };
 
   return (
-    <>
+    <div className="body11">
       <section className="container">
         <div className="flex flex-row	sm:pl-14 sm:pr-14 items-center">
           <div className="max-h-20 sm:max-h-24 max-w-20 sm:max-w-24">
@@ -265,7 +265,7 @@ function UserReg() {
           </button>
         </form>
       </section>
-    </>
+    </div>
   );
 }
 

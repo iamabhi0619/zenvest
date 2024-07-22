@@ -71,6 +71,27 @@ app.get("/newreg", async (req, res) => {
   }
 });
 
+app.post("/updatei", async (req, res) => {
+  const { id, remarks, status } = req.body;
+
+  try {
+    const updatedUser = await newReg.findOneAndUpdate(
+      { id: id },
+      { remarks: remarks, status: status },
+      { new: true }
+    );
+
+    if (updatedUser) {
+      res.status(200).json({ data: updatedUser });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log("Server Started Port", PORT);
