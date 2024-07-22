@@ -38,7 +38,40 @@ app.post("/regester", async (req, res) => {
   }
 });
 
+app.get("/newreg", async (req, res) => {
+  const id = +req.query.id;
+  try {
+    const data = await newReg.findOne({ id: id });
+
+    if (data) {
+      data.gender = `${data.gender.charAt(0).toUpperCase()}${data.gender.slice(
+        1
+      )}`;
+      if (data.userimg == "") {
+        const fullName = data.name;
+        let firstName, lastName;
+        if (fullName.includes(" ")) {
+          const nameParts = fullName.split(" ");
+          firstName = nameParts[0];
+          lastName = nameParts.slice(1).join(" ");
+        } else {
+          firstName = fullName.slice(0, 1);
+          lastName = fullName.slice(1);
+        }
+
+        data.userimg = `https://avatar.iran.liara.run/username?username=${firstName}+${lastName}`;
+      }
+      res.json({ status: "Found", data: data });
+    } else {
+      res.json({ status: "NotFound", data: data });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "ServerNotFound", data: data });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log("Server Started Port",PORT);
+  console.log("Server Started Port", PORT);
 });
