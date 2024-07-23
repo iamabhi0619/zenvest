@@ -100,10 +100,8 @@ app.get("/regdetails", async (req, res) => {
   try {
     const searchid = req.query.search || "";
 
-    const searchNumber = !isNaN(searchid) ? Number(searchid) : null;
-
     const queryConditions = [
-      { name: { $regex: searchid, $options: "i" } },
+      { id: { $regex: searchid, $options: "i" } },
       { name: { $regex: searchid, $options: "i" } },
       { email: { $regex: searchid, $options: "i" } },
     ];
@@ -112,7 +110,7 @@ app.get("/regdetails", async (req, res) => {
         $or: queryConditions,
       })
       .sort({ _id: -1 });
-
+      log
     res.send({ status: "ok", data: users });
   } catch (error) {
     res.status(500).send({ status: "error", message: "Failed to fetch users" });
