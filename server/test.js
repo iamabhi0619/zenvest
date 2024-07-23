@@ -1,4 +1,4 @@
-// index.js
+
 const { sendNotification } = require('./notification');
 
 
@@ -17,7 +17,4 @@ async function main(cust) {
   await sendNotification(message);
 }
 
-main({
-  title: "New user Registred..!!!",
-  body: `Abhishek Kumar\nFemale`
-}).catch(console.error);
+main().catch(console.error);

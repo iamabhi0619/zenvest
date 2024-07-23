@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const newReg = require("./model/newReg").newReg;
 const { sendEmail } = require("./emails/regester.js");
-const { sendNotification } = require('./notification.js');
+const { sendNotification } = require("./notification.js");
 
 const app = express();
 
@@ -20,6 +20,21 @@ async function main() {
   console.log("Database connected...!");
 }
 
+async function sendNotifi(cust) {
+  const message = {
+    notification: {
+      title: cust.title,
+      body: cust.body,
+      image: "",
+    },
+    data: {
+      customKey: "customValue",
+    },
+  };
+
+  await sendNotification(message);
+}
+
 app.get("/", (req, res) => {
   res.json("Hello");
 });
@@ -29,11 +44,17 @@ app.post("/regester", async (req, res) => {
     const data = new newReg(req.body);
     const savedata = await data.save();
     console.log("New user added");
-    sendEmail(savedata).then(() => {
-      console.log("Sent Email");
-    }).catch((err) => {
-      console.log(err);
-    });
+    sendNotifi({
+      title: "New Registration...!!",
+      body: `${savedata.name}\n${savedata.gender}\n${savedata.interest}`,
+    }).catch(console.error);
+    sendEmail(savedata)
+      .then(() => {
+        console.log("Sent Email");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     res.json({ status: "ok" });
   } catch (err) {
     console.log(err);
@@ -87,23 +108,23 @@ app.post("/updatei", async (req, res) => {
     if (updatedUser) {
       res.status(200).json({ data: updatedUser });
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 
 app.get("/regdetails", async (req, res) => {
   try {
-    const searchid = req.query.search || '';
+    const searchid = req.query.search || "";
     const users = await newReg.find({
       $or: [
-        { id: { $regex: searchid, $options: 'i' } },
-        { name: { $regex: searchid, $options: 'i' } },
-        { email: { $regex: searchid, $options: 'i' } }
-      ]
+        { id: { $regex: searchid, $options: "i" } },
+        { name: { $regex: searchid, $options: "i" } },
+        { email: { $regex: searchid, $options: "i" } },
+      ],
     });
     res.send({ status: "ok", data: users });
   } catch (error) {
@@ -112,10 +133,10 @@ app.get("/regdetails", async (req, res) => {
   }
 });
 
-app.get("/gettoken", (req, res)=>{
+app.get("/gettoken", (req, res) => {
   console.log(req.query.token);
-  res.json({status:"ok"});
-})
+  res.json({ status: "ok" });
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
