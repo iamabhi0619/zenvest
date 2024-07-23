@@ -94,6 +94,29 @@ app.post("/updatei", async (req, res) => {
   }
 });
 
+app.get("/regdetails", async (req, res) => {
+  try {
+    const searchid = req.query.search || '';
+
+    // Determine if the searchid can be converted to a number
+    const searchNumber = !isNaN(searchid) ? Number(searchid) : null;
+
+    const users = await newReg.find({
+      $or: [
+        ...(searchNumber !== null ? [{ id: searchNumber }] : []),
+        { name: { $regex: searchid, $options: 'i' } },
+        { email: { $regex: searchid, $options: 'i' } }
+      ]
+    }).sort({ _id: -1 });  // Sort in descending order by _id
+
+    res.send({ status: "ok", data: users });
+  } catch (error) {
+    res.status(500).send({ status: "error", message: "Failed to fetch users" });
+    console.error(`Error fetching users: ${error}`);
+  }
+});
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log("Server Started Port", PORT);

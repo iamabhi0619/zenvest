@@ -31,6 +31,7 @@ function UserDetails() {
             setRemarks(result.data.remarks)
           } else if (result.data.status === "2") {
             setStatus("Pending For Evaluation");
+            setRemarks(result.data.remarks)
           } else if (result.data.status === "3") {
             setStatus("Selected As Member");
             setInterviewb(false);
