@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const newReg = require("./model/newReg").newReg;
 const { sendEmail } = require("./emails/regester.js");
+const { sendNotification } = require('./notification.js');
 
 const app = express();
 
@@ -99,7 +100,7 @@ app.get("/regdetails", async (req, res) => {
     const searchid = req.query.search || '';
     const users = await newReg.find({
       $or: [
-        { id: { $regex: (searchid), $options: 'i' } },
+        { id: { $regex: searchid, $options: 'i' } },
         { name: { $regex: searchid, $options: 'i' } },
         { email: { $regex: searchid, $options: 'i' } }
       ]
@@ -110,6 +111,11 @@ app.get("/regdetails", async (req, res) => {
     console.error(`Error fetching users: ${error}`);
   }
 });
+
+app.get("/gettoken", (req, res)=>{
+  console.log(req.query);
+  res.json({status:"ok"});
+})
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
