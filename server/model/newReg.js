@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const newRegSchema = new Schema({
   id: {
-    type: Number,
+    type: String,
     unique: true
   },
   name: String,

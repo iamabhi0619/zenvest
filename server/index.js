@@ -28,11 +28,13 @@ app.post("/regester", async (req, res) => {
     const data = new newReg(req.body);
     const savedata = await data.save();
     console.log("New user added");
-    sendEmail(savedata).then(() => {
-      console.log("Sent Email");
-    }).catch((err) => {
-      console.log(err);
-    });
+    sendEmail(savedata)
+      .then(() => {
+        console.log("Sent Email");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     res.json({ status: "ok" });
   } catch (err) {
     console.log(err);
@@ -41,7 +43,7 @@ app.post("/regester", async (req, res) => {
 });
 
 app.get("/newreg", async (req, res) => {
-  const id = +req.query.id;
+  const id = req.query.id;
   try {
     const data = await newReg.findOne({ id: id });
 
@@ -86,28 +88,30 @@ app.post("/updatei", async (req, res) => {
     if (updatedUser) {
       res.status(200).json({ data: updatedUser });
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 
 app.get("/regdetails", async (req, res) => {
   try {
-    const searchid = req.query.search || '';
+    const searchid = req.query.search || "";
 
-    // Determine if the searchid can be converted to a number
     const searchNumber = !isNaN(searchid) ? Number(searchid) : null;
 
-    const users = await newReg.find({
-      $or: [
-        ...(searchNumber !== null ? [{ id: searchNumber }] : []),
-        { name: { $regex: searchid, $options: 'i' } },
-        { email: { $regex: searchid, $options: 'i' } }
-      ]
-    }).sort({ _id: -1 });  // Sort in descending order by _id
+    const queryConditions = [
+      { name: { $regex: searchid, $options: "i" } },
+      { name: { $regex: searchid, $options: "i" } },
+      { email: { $regex: searchid, $options: "i" } },
+    ];
+    const users = await newReg
+      .find({
+        $or: queryConditions,
+      })
+      .sort({ _id: -1 });
 
     res.send({ status: "ok", data: users });
   } catch (error) {
@@ -115,7 +119,6 @@ app.get("/regdetails", async (req, res) => {
     console.error(`Error fetching users: ${error}`);
   }
 });
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
