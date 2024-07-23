@@ -113,7 +113,7 @@ app.get("/regdetails", async (req, res) => {
 });
 
 app.get("/gettoken", (req, res)=>{
-  console.log(req.query);
+  console.log(req.query.token);
   res.json({status:"ok"});
 })
 

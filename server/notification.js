@@ -11,7 +11,7 @@ const fcmUrl = `https://fcm.googleapis.com/v1/projects/${projectId}/messages:sen
 
 const userTokens = [
   'erFUXhJ_tvS4MMpWeFqPP6:APA91bHeDNO_E5WNieR0LHirk7nNuUp05CXT_yBeS6Oc-03VwZPunFlrsQi2DoDkMWGr1aHgasMVylzwo5dEFXIw2L8Yc2tSnbZ2-dt2RBwRG2O2P7_2-ugGiJKOvf6yd_SSRMX6a4JA',
-  'dHaBf0AV1M8XLbezCqjPCp:APA91bF6VQ6EbgRBwIl3SyRRu7PEL-AOH2ClksKYNK6tXm5P63H7_PvvdWmJu4-67DeGMcrE3b06K81pzpqjKG7NgR-OO3ZjetPIXRbKTJzyvMnovSlz3kLP3q1dQLIQuMlhzgMEmmqy',
+  'dHaBf0AV1M8XLbezCqjPCp%3AAPA91bF6VQ6EbgRBwIl3SyRRu7PEL-AOH2ClksKYNK6tXm5P63H7_PvvdWmJu4-67DeGMcrE3b06K81pzpqjKG7NgR-OO3ZjetPIXRbKTJzyvMnovSlz3kLP3q1dQLIQuMlhzgMEmmqy',
 ];
 
 async function getAccessToken() {

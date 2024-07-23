@@ -5,8 +5,8 @@ const { sendNotification } = require('./notification');
 async function main(cust) {
   const message = {
     notification: {
-      title: mess.title,
-      body: mess.body,
+      title: cust.title,
+      body: cust.body,
       image: '',
     },
     data: {

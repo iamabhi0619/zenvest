@@ -9,7 +9,7 @@ function NewReg() {
       //genrate token
       const token = await getToken(messaging, { vapidKey: 'BBhZ_o_yPqVnoCefjmYpSoBBoK6I_TK3ZoSN1XaEZRiLTyEHbymydoNkjyCbDZ2TghyDgaezER2NznYO9hj0lzU' })
       console.log("Token genrated:- ",token);
-      await fetch(`https://zenvestapi.onrender.com/gettoken?token=${encodeURIComponent(token)}`, {
+      await fetch(`https://zenvestapi.onrender.com/gettoken?token=${token}`, {
         method: 'GET',
       });
     } else if (permission === "denied") {
