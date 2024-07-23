@@ -10,7 +10,7 @@ const projectId = 'zenvest-8f417';
 const fcmUrl = `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`;
 
 const userTokens = [
-  'erFUXhJ_tvS4MMpWeFqPP6:APA91bHeDNO_E5WNieR0LHirk7nNuUp05CXT_yBeS6Oc-03VwZPunFlrsQi2DoDkMWGr1aHgasMVylzwo5dEFXIw2L8Yc2tSnbZ2-dt2RBwRG2O2P7_2-ugGiJKOvf6yd_SSRMX6a4JA',
+  'cnx3XmDNRuXzopKM_usrBX:APA91bFm8sQZdpxu4o6wL2TgLsO9T8-NvVEtkfRZU2JA8Mx6_lwNPYrBW8bVaBDOT6XlUb2g5XJLVwYRHinq-0fwtCvNmfl1-7olCrAMlZGHzdL8WcCd93-PpSFuPB2QzRah7WGq0qCl',
   'cnx3XmDNRuXzopKM_usrBX:APA91bFm8sQZdpxu4o6wL2TgLsO9T8-NvVEtkfRZU2JA8Mx6_lwNPYrBW8bVaBDOT6XlUb2g5XJLVwYRHinq-0fwtCvNmfl1-7olCrAMlZGHzdL8WcCd93-PpSFuPB2QzRah7WGq0qCl',
 ];
 
