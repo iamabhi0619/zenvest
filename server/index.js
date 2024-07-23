@@ -94,7 +94,7 @@ app.post("/updatei", async (req, res) => {
   }
 });
 
-app.get("/AK002", async (req, res) => {
+app.get("/regdetails", async (req, res) => {
   try {
     const searchid = req.query.search || '';
     const users = await newReg.find({
