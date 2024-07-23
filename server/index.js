@@ -28,13 +28,11 @@ app.post("/regester", async (req, res) => {
     const data = new newReg(req.body);
     const savedata = await data.save();
     console.log("New user added");
-    sendEmail(savedata)
-      .then(() => {
-        console.log("Sent Email");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    sendEmail(savedata).then(() => {
+      console.log("Sent Email");
+    }).catch((err) => {
+      console.log(err);
+    });
     res.json({ status: "ok" });
   } catch (err) {
     console.log(err);
@@ -43,7 +41,7 @@ app.post("/regester", async (req, res) => {
 });
 
 app.get("/newreg", async (req, res) => {
-  const id = req.query.id;
+  const id = +req.query.id;
   try {
     const data = await newReg.findOne({ id: id });
 
@@ -88,29 +86,24 @@ app.post("/updatei", async (req, res) => {
     if (updatedUser) {
       res.status(200).json({ data: updatedUser });
     } else {
-      res.status(404).json({ message: "User not found" });
+      res.status(404).json({ message: 'User not found' });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
 
-app.get("/regdetails", async (req, res) => {
+app.get("/AK002", async (req, res) => {
   try {
-    const searchid = req.query.search || "";
-
-    const queryConditions = [
-      { id: { $regex: searchid, $options: "i" } },
-      { name: { $regex: searchid, $options: "i" } },
-      { email: { $regex: searchid, $options: "i" } },
-    ];
-    const users = await newReg
-      .find({
-        $or: queryConditions,
-      })
-      .sort({ _id: -1 });
-      log
+    const searchid = req.query.search || '';
+    const users = await newReg.find({
+      $or: [
+        { id: { $regex: (searchid), $options: 'i' } },
+        { name: { $regex: searchid, $options: 'i' } },
+        { email: { $regex: searchid, $options: 'i' } }
+      ]
+    });
     res.send({ status: "ok", data: users });
   } catch (error) {
     res.status(500).send({ status: "error", message: "Failed to fetch users" });

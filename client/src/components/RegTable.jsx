@@ -25,7 +25,6 @@ function RegTable() {
         params: { search: query },
       });
       SetUsers(response.data.data);
-      console.log(users);
     } catch (error) {
       console.error('Error fetching users:', error);
     } finally {
