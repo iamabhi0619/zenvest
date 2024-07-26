@@ -46,7 +46,7 @@ app.post("/regester", async (req, res) => {
     console.log("New user added");
     sendNotifi({
       title: "New Registration...!!",
-      body: `${savedata.name}\n${savedata.gender}\n${savedata.interest}`,
+      body: `${savedata.name}\n${savedata.gender}\n${savedata.interest} ${savedata.course} ${savedata.courseYear}`,
     }).catch(console.error);
     sendEmail(savedata)
       .then(() => {

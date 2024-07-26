@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/newreg" element={<UserReg />} />
-        <Route path="/vnewreg" element={<NewReg />} />
+        <Route path="/notifi" element={<NewReg />} />
         <Route path="/user" element={<UserDetails />} />
         <Route path="/regtable" element={<RegTable />} />
       </Routes>

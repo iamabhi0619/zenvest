@@ -11,7 +11,8 @@ function UserReg() {
     dateofbirth: "",
     gender: "",
     number: "",
-    course: "",
+    course: "1st Year",
+    courseYear: "",
     interest: "",
     userimg: "",
     work: "",
@@ -100,11 +101,19 @@ function UserReg() {
       <section className="container">
         <div className="flex flex-row	sm:pl-14 sm:pr-14 items-center">
           <div className="max-h-20 sm:max-h-24 max-w-20 sm:max-w-24">
-            <img src="https://firebasestorage.googleapis.com/v0/b/zenvest-8f417.appspot.com/o/Designer%20(7).png?alt=media&token=1902f931-1d5f-4319-8a94-1348094d756f" alt="" className="rounded-full mr-14" />
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/zenvest-8f417.appspot.com/o/Designer%20(7).png?alt=media&token=1902f931-1d5f-4319-8a94-1348094d756f"
+              alt=""
+              className="rounded-full mr-14"
+            />
           </div>
           <div className="pl-1 sm:pl-14">
-            <header className="text-2xl sm:text-4xl pb-3">Registration Form</header>
-            <header className=" text-lg sm:text-2xl">Welcome to Team Zenvest</header>
+            <header className="text-2xl sm:text-4xl pb-3">
+              Registration Form
+            </header>
+            <header className=" text-lg sm:text-2xl">
+              Welcome to Team Zenvest
+            </header>
           </div>
         </div>
 
@@ -120,7 +129,6 @@ function UserReg() {
               required
             />
           </div>
-
           <div className="input-box">
             <label>Full Name</label>
             <input
@@ -206,54 +214,67 @@ function UserReg() {
                 <option value="Other">Other</option>
               </select>
             </div>
-            <div className="input-box">
-              <label>Interest</label>
-              <div className="select-box">
-                <select onChange={handleChange} name="interest" required>
-                  <option hidden>Your Field Of Interest</option>
-                  <option value="Graphic Design And Video Editing">
-                    Graphic Design And Video Editing
-                  </option>
-                  <option value="Social Media and Content Creation">
-                    Social Media and Content Creation
-                  </option>
-                  <option value="Technical Team">Technical Team</option>
-                  <option value="Event Management and Marketing">
-                    Event Management and Marketing
-                  </option>
-                  <option value="Public Speaking">Public Speaking</option>
-                  <option value="Fine Arts">Fine Arts</option>
-                  <option value="Photography">Photography</option>
-                </select>
-              </div>
+          </div>
+          
+          <div className="input-box">
+            <label>Course Year</label>
+            <div className="select-box">
+              <select onChange={handleChange} name="courseYear" required>
+                <option hidden>Course Year</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+              </select>
             </div>
-            <div className="file-container">
-              <label>Photo </label>
-              <div className="flex items-center">
-                <input
-                  type="file"
-                  className="file-input"
-                  onChange={handleUpload}
-                  name="userimg"
-                  accept="image/*"
-                  disabled={userimg}
-                />
-                <p className="ml-24">{userimgs}</p>
-              </div>
+          </div>
+          <div className="input-box">
+            <label>Interest</label>
+            <div className="select-box">
+              <select onChange={handleChange} name="interest" required>
+                <option hidden>Your Field Of Interest</option>
+                <option value="Graphic Design And Video Editing">
+                  Graphic Design And Video Editing
+                </option>
+                <option value="Social Media and Content Creation">
+                  Social Media and Content Creation
+                </option>
+                <option value="Technical Team">Technical Team</option>
+                <option value="Event Management and Marketing">
+                  Event Management and Marketing
+                </option>
+                <option value="Public Speaking">Public Speaking</option>
+                <option value="Fine Arts">Fine Arts</option>
+                <option value="Photography">Photography</option>
+              </select>
             </div>
-            <div className="">
-              <label>Previous Work </label>
-              <div className="flex items-center">
-                <input
-                  type="file"
-                  className="w-fit"
-                  name="work"
-                  onChange={handleUpload}
-                  accept="audio/*,video/*,image/*,.pdf"
-                  disabled={work}
-                />
-                <p className="ml-24">{works}</p>
-              </div>
+          </div>
+          <div className="file-container">
+            <label>Photo </label>
+            <div className="flex items-center">
+              <input
+                type="file"
+                className="file-input"
+                onChange={handleUpload}
+                name="userimg"
+                accept="image/*"
+                disabled={userimg}
+              />
+              <p className="ml-24">{userimgs}</p>
+            </div>
+          </div>
+          <div className="">
+            <label>Previous Work </label>
+            <div className="flex items-center">
+              <input
+                type="file"
+                className="w-fit"
+                name="work"
+                onChange={handleUpload}
+                accept="audio/*,video/*,image/*,.pdf"
+                disabled={work}
+              />
+              <p className="ml-24">{works}</p>
             </div>
           </div>
           <button

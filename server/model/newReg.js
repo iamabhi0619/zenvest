@@ -12,6 +12,10 @@ const newRegSchema = new Schema({
   gender: String,
   number: Number,
   course: String,
+  courseYear: {
+    type: String,
+    default: "1st Year"
+  },
   interest: String,
   date: {
     type: Date,
