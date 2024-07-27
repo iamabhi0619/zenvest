@@ -12,7 +12,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/newreg" element={<UserReg />} />
         <Route path="/notifi" element={<NewReg />} />
-        <Route path="/user" element={<UserDetails />} />
+        <Route path="/user121" element={<UserDetails />} />
         <Route path="/regtable" element={<RegTable />} />
       </Routes>
     </BrowserRouter>

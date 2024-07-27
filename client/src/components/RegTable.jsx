@@ -39,16 +39,17 @@ function RegTable() {
       <div className="text-5xl text-blue-600 text-center">
         <p>Registration Details</p>
       </div>
+      <p className="text-xl pl-4">Total Reg:- {users.length}</p>
       <div className=" mt-4">
         <div >
           <input
             value={searchid}
             onChange={handleSearch}
-            className="text-2xl px-5 py-2 border-2 border-blue-700 rounded-xl bg-none w-full"
+            className="text-2xl px-5 py-2 border-2 border-blue-700 rounded-xl bg-none w-full mx-4"
             placeholder="Search"
           />
         </div>
-        <div className="mt-4 px-2 border-2 border-blue-500 w-full">
+        <div className="mt-4 mx-3 px-2 border-2 border-blue-500 w-full">
         <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
