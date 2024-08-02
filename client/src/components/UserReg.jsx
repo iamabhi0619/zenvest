@@ -246,6 +246,7 @@ function UserReg() {
                 <option value="Public Speaking">Public Speaking</option>
                 <option value="Fine Arts">Fine Arts</option>
                 <option value="Photography">Photography</option>
+                <option value="Fund Management">Fund Management</option>
               </select>
             </div>
           </div>

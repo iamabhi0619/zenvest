@@ -82,7 +82,6 @@ app.get("/newreg", async (req, res) => {
           firstName = fullName.slice(0, 1);
           lastName = fullName.slice(1);
         }
-
         data.userimg = `https://avatar.iran.liara.run/username?username=${firstName}+${lastName}`;
       }
       res.json({ status: "Found", data: data });
@@ -125,7 +124,7 @@ app.get("/regdetails", async (req, res) => {
         { name: { $regex: searchid, $options: "i" } },
         { email: { $regex: searchid, $options: "i" } },
       ],
-    });
+    }).sort({date:-1});
     res.send({ status: "ok", data: users });
   } catch (error) {
     res.status(500).send({ status: "error", message: "Failed to fetch users" });
