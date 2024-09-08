@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap');
 body {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -11,3 +14,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.scroll-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  position: relative;
+}
+
+.scroll-content {
+  display: inline-flex; /* Align items in a row */
+  animation: scroll 30s linear infinite; /* Adjust duration for speed */
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%); /* Adjust based on total width of content */
+  }
+}
+.scroll-wrapper:hover .scroll-content {
+  animation-play-state: paused; /* Pause the animation on hover */
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
