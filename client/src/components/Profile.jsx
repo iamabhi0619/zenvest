@@ -49,7 +49,7 @@ function Profile({ data }) {
             <a
               href={data.socialLinks[2]}
               aria-label="GitHub"
-              className="text-white text-[24px] transition-colors duration-300 hover:text-gray-500"
+              className="text-white text-[24px] transition-colors duration-300 hover:text-gray-900"
             >
               <FaGithub />
             </a>

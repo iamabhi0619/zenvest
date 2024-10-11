@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="imageForm">
+        <input type="text" id="inputField" placeholder="Enter text"> 
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="imageContainer">
+        <img src="http://localhost:3000/qr/12348" alt="">
+    </div>
+
+    <script>
+        document.getElementById('imageForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const inputValue = document.getElementById('inputField').value;
+
+            try {
+                // Replace this with your actual API endpoint
+                const response = await fetch('http://localhost:3000/test', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ data: inputValue })
+                });
+                console.log(response);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const base64Image = data.data;
+
+                    document.getElementById('imageContainer').innerHTML = `<img src=${base64Image} alt="Generated Image" />`;
+                } else {
+                    console.error('Failed to fetch image');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

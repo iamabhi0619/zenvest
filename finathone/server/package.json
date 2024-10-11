@@ -1,0 +1,23 @@
+{
+  "name": "finathone",
+  "version": "1.0.0",
+  "description": "Special server for finathone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Abhishek Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "@loskir/styled-qr-code-node": "^1.5.2",
+    "canvas": "^2.11.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0",
+    "styled-qr-code": "^1.0.0",
+    "whatsapp-web.js": "^1.26.0"
+  }
+}

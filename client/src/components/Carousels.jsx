@@ -14,14 +14,14 @@ const ImageData = [
   "https://firebasestorage.googleapis.com/v0/b/zenvest-8f417.appspot.com/o/event_photos%2F15Aug2021-04.jpg?alt=media&token=960f1967-2ab2-4302-a9ed-042e4fa75233",
   "https://firebasestorage.googleapis.com/v0/b/zenvest-8f417.appspot.com/o/event_photos%2F15Aug2021-05.jpg?alt=media&token=1424b49b-5b66-45a0-b462-1411df9cc15a",
   "https://firebasestorage.googleapis.com/v0/b/zenvest-8f417.appspot.com/o/event_photos%2F15Aug2021-06.jpg?alt=media&token=c5d39c89-4ecc-404b-bf72-e5a7e900c4f1",
-  "https://firebasestorage.googleapis.com/v0/b/zenvest-8f417.appspot.com/o/event_photos%2F15Aug2021-07.jpg?alt=media&token=44f90b26-c739-43fe-8886-c195c66f6824"
+  "https://firebasestorage.googleapis.com/v0/b/zenvest-8f417.appspot.com/o/event_photos%2F15Aug2021-07.jpg?alt=media&token=44f90b26-c739-43fe-8886-c195c66f6824",
 ];
 
 const Carousels = () => {
   return (
     <>
       <div className="">
-        <h1 className="swiper-heading text-center text-themColor-blue text-5xl font-bold font-suse">
+        <h1 className="swiper-heading text-center my-2 mb-4 text-themColor-blue text-5xl font-bold font-suse">
           Our Event Memories
         </h1>
         <Swiper
@@ -44,7 +44,7 @@ const Carousels = () => {
           {ImageData.map((data, index) => (
             <SwiperSlide
               key={index}
-              className="border-2 border-themColor-blue max-w-sm md:max-w-lg"
+              className="border-2 border-themColor-blue sm:max-w-[600px] sm:max-h-[450px] max-w-[400px] max-h-[300px]"
             >
               <img src={data} alt={`Slide ${index}`} />
             </SwiperSlide>

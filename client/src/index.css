@@ -9,22 +9,19 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
 .scroll-wrapper {
   overflow: hidden;
   white-space: nowrap;
   width: 100%;
   position: relative;
 }
-
 .scroll-content {
-  display: inline-flex; /* Align items in a row */
-  animation: scroll 30s linear infinite; /* Adjust duration for speed */
+  display: inline-flex;
+  animation: scroll 30s linear infinite; 
 }
 @keyframes scroll {
   0% {

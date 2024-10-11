@@ -25,6 +25,6 @@ const userSchema = new Schema({
   }
 });
 
-const collab = mongoose.model('collab', userSchema);
+const collab = mongoose.model('Collab', userSchema);
 
 module.exports = collab;
