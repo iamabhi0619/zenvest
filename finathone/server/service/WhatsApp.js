@@ -1,5 +1,7 @@
 const { Client, LocalAuth, MessageMedia } = require("whatsapp-web.js");
 const { generateTicket } = require("./GenrateTicket");
+const qrcode = require("qrcode");
+
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: { headless: true },
@@ -7,8 +9,16 @@ const client = new Client({
 client.on("ready", () => {
   console.log("WhatsApp client is ready!");
 });
-client.on("qr", (qr) => {
-  require("qrcode-terminal").generate(qr, { small: true });
+client.on("qr", async (qr) => {
+  try {
+    // Generate the QR code as an image URL
+    const qrImage = await qrcode.toDataURL(qr);
+
+    // You can upload qrImage to a cloud service like Cloudinary and send the link via email or webhook
+    console.log("QR code URL generated:", qrImage);
+  } catch (error) {
+    console.error("Failed to generate QR code:", error);
+  }
 });
 client.initialize();
 function formatPhoneNumber(phoneNumber) {
