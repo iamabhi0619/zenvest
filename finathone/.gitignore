@@ -1,3 +1,2 @@
-/server/.wwebjs_auth/session
-/server/.wwebjs_cache
 /server/node_modules
+/client/node_modules
