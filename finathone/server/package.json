@@ -12,12 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "@loskir/styled-qr-code-node": "^1.5.2",
+    "axios": "^1.7.7",
     "canvas": "^2.11.2",
     "cors": "^2.8.5",
     "express": "^4.21.1",
-    "qrcode": "^1.5.4",
-    "qrcode-terminal": "^0.12.0",
-    "styled-qr-code": "^1.0.0",
-    "whatsapp-web.js": "^1.26.0"
+    "jimp": "^1.6.0"
   }
 }
