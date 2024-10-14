@@ -12,7 +12,6 @@ const RegistrationForm = () => {
     courseYear: "",
   };
   const [formData, setFormData] = useState(fdata);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
