@@ -6,7 +6,7 @@ const RegistrationForm = () => {
     name: "",
     registrationNumber: "",
     email: "",
-    whatsAppNumber: "",
+    number: "",
     gender: "",
     course: "",
     courseYear: "",
@@ -101,8 +101,8 @@ const RegistrationForm = () => {
               </label>
               <input
                 type="tel"
-                name="whatsAppNumber"
-                value={formData.whatsAppNumber}
+                name="number"
+                value={formData.number}
                 onChange={handleChange}
                 required
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
