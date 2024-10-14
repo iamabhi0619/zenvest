@@ -3,11 +3,12 @@ import axios from 'axios';
 
 const Payment = () => {
     const [amount] = useState(100);
+    const data = {name:"Abhishek Kumar"}
     const [responseMessage, setResponseMessage] = useState('');
 
     const initiatePayment = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/payment', { amount, currency: 'INR' });
+            const response = await axios.post('http://localhost:5000/api/payment', data);
             const { id: orderId } = response.data;
             const options = {
                 key: 'rzp_test_03LXELXxAaFSja',

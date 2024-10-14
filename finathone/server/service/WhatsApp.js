@@ -1,8 +1,8 @@
 const axios = require('axios');
 const { generateTicket } = require('./GenrateTicket');
 
-const instanceId = 'instance97057';
-const apiKey = 'rjzmwtztf205mtw2';
+const instanceId = process.env.WHATSAPP_INSTANCEID1;
+const apiKey = process.env.WHATSAPP_APIKEY1;
 function formatPhoneNumber(phoneNumber) {
   let cleanNumber = phoneNumber.replace(/\D/g, '');
   if (cleanNumber.startsWith('91') && cleanNumber.length === 12) {
