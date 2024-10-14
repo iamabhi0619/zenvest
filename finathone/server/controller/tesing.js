@@ -1,6 +1,6 @@
 const { generateQR } = require("../service/QrCode");
 const { sendRegMessage } = require("../service/WhatsApp");
-
+const crypto = require('crypto');
 const Razorpay = require("razorpay");
 const razorpay = new Razorpay({
   key_id: process.env.RAZER_ID,
