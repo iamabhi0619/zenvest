@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 app.post('/test', testController.test);
 app.get('/qr/:data', testController.QRCode);
 app.post('/api/payment', testController.payment);
-app.get('/api/payment/webhook', testController.details)
+app.post('/api/payment/webhook', testController.details)
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

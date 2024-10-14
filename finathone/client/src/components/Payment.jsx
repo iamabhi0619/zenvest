@@ -7,7 +7,7 @@ const Payment = () => {
 
     const initiatePayment = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/payment', { amount, currency: 'INR' });
+            const response = await axios.post('https://finathon.zenvest.live/api/payment', { amount, currency: 'INR' });
             const { id: orderId } = response.data;
             const options = {
                 key: 'rzp_test_03LXELXxAaFSja',
@@ -18,7 +18,7 @@ const Payment = () => {
                 order_id: orderId,
                 handler: function (response) {
                     console.log('Payment successful:', response);
-                    axios.get(`http://localhost:5000/api/payment/details/${orderId}`);
+                    // axios.get(`https://finathon.zenvest.live/api/payment/details/${orderId}`);
                     // console.log(paymentDetailsResponse.data);
                 },
                 prefill: {
@@ -29,7 +29,7 @@ const Payment = () => {
                 theme: {
                     color: '#005246'
                 },
-                callback_url: `http://localhost:5000/api/payment/details/${orderId}`,
+                // callback_url: `http://localhost:5000/api/payment/details/${orderId}`,
             };
             const razorpay = new window.Razorpay(options);
             razorpay.open();
