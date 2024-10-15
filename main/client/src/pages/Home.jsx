@@ -25,7 +25,7 @@ function Home() {
           alt=""
           className="w-40 h-40 md:w-60 md:h-60 p-0.5 border border-white rounded-full shadow shadow-white sm:w-24 sm:h-24"
         />
-        <NavLink to={'/newreg'}><p className="text-2xl bg-white py-2 px-6 rounded-xl font-semibold hover:cursor-pointer hover:bg-slate-200">JOIN the TEAM</p></NavLink>
+        <a href="/newreg"><p className="text-2xl bg-white py-2 px-6 rounded-xl font-semibold hover:cursor-pointer hover:bg-slate-200">JOIN the TEAM</p></a>
       </div>
       {/* <div className="scroll-wrapper">
         <h1 className="text-center my-2 mb-4 text-themColor-blue text-5xl font-bold font-suse">

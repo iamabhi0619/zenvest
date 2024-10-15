@@ -10,6 +10,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: linear-gradient(to right top, #051937, #002440, #002e3a, #003427, #05390d);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
