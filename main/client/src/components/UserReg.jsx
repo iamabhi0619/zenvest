@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaMars, FaVenus } from 'react-icons/fa';
+import { FaMars, FaVenus } from "react-icons/fa";
 function UserReg() {
   const form = {
     id: "",
@@ -138,7 +138,10 @@ function UserReg() {
                     name="gender"
                     className="peer h-4 w-4 cursor-pointer opacity-0"
                   />
-                  <FaMars className="absolute text-xl peer-checked:text-white peer-checked:bg-[#2986cc] bg-white p-2 rounded-full text-[#2986cc]" size={45}/>
+                  <FaMars
+                    className="absolute text-xl peer-checked:text-white peer-checked:bg-[#2986cc] bg-white p-2 rounded-full text-[#2986cc]"
+                    size={45}
+                  />
                 </label>
                 <label className="flex items-center cursor-pointer">
                   <input
@@ -149,7 +152,10 @@ function UserReg() {
                     value="Female"
                     className="peer h-4 w-4 cursor-pointer opacity-0"
                   />
-                  <FaVenus className="absolute text-xl peer-checked:text-white peer-checked:bg-[#c90076] bg-white p-2 rounded-full text-[#c90076]" size={45} />
+                  <FaVenus
+                    className="absolute text-xl peer-checked:text-white peer-checked:bg-[#c90076] bg-white p-2 rounded-full text-[#c90076]"
+                    size={45}
+                  />
                 </label>
               </div>
             </div>
@@ -169,6 +175,10 @@ function UserReg() {
                   Social Media and Content Creation
                 </option>
                 <option value="Technical Team">Technical Team</option>
+                <option value="Event Management and Marketing">
+                  Event Management and Marketing
+                </option>
+                <option value="Public Speaking">Public Speaking</option>
                 <option value="Fine Arts">Fine Arts</option>
                 <option value="Photography">Photography</option>
                 <option value="Fund Management">Fund Management</option>
@@ -184,7 +194,9 @@ function UserReg() {
                 required
                 className="w-full py-2 px-4 mt-2 border border-white rounded-lg bg-transparent text-white placeholder:text-sm focus:outline-white focus:text-white focus:bg-slate-600"
               >
-                <option disabled selected hidden className="text-sm" value="">Select your Course</option>
+                <option disabled selected hidden className="text-sm" value="">
+                  Select your Course
+                </option>
                 <option value="B.Tech">B.Tech</option>
                 <option value="BBA">BBA</option>
                 <option value="MBA">MBA</option>
