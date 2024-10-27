@@ -15,7 +15,7 @@ function App() {
           FIN-A-THON
         </p>
       </header>
-      <main className="flex-grow w-full flex items-center justify-center h-[calc(100vh-80px)]">
+      <main className="flex-grow w-full flex items-center justify-center">
         {/* Adjust the height calculation if needed */}
         {Object.keys(data).length === 0 ? (
           <EventRegistrationForm submit={setdata} />

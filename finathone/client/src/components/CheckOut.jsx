@@ -28,9 +28,9 @@ export const CheckOut = ({ data }) => {
           setPayStatus(true);
         },
         prefill: {
-          name: "ZENVEST",
-          email: "official@zenvest.live",
-          contact: "9999999999",
+          name: data.name,
+          email: data.email,
+          contact: data.number,
         },
         theme: {
           color: "#005246",
@@ -48,7 +48,7 @@ export const CheckOut = ({ data }) => {
   };
 
   return (
-    <div className="flex justify-center bg-white items-center my-auto rounded-3xl w-full max-w-lg md:max-w-md">
+    <div className="flex justify-center bg-white items-center my-auto py-10 rounded-3xl w-full max-w-lg md:max-w-md">
       {!payment ? (
         <div className="font-normal p-8 flex flex-col gap-5">
           <div className="flex items-center w-full justify-center">

@@ -8,7 +8,7 @@ import {
   FaGenderless,
 } from "react-icons/fa";
 import { FaRegIdCard } from "react-icons/fa6";
-import { generateAvatar } from './style/dpgenrate'; // Adjust the path accordingly
+import { generateAvatar } from './style/dpgenrate';
 
 function EventRegistrationForm({ submit }) {
   const [formData, setFormData] = useState({

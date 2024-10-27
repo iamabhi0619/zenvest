@@ -28,14 +28,12 @@ exports.createOrder = async (req, res) => {
 
 exports.verification = async (req, res) => {
   try {
-    const secret = process.env.RAZER_WSECRET;
-    console.log(req.body);
-    const receivedSignature = req.headers["x-razorpay-signature"];
-    const generatedSignature = crypto
-      .createHmac("sha256", secret)
-      .update(JSON.stringify(req.body))
-      .digest("hex");
-    console.log(`${receivedSignature}\n${generatedSignature}\n`);
+    // const secret = process.env.RAZER_WSECRET;
+    // const receivedSignature = req.headers["x-razorpay-signature"];
+    // const generatedSignature = crypto
+    //   .createHmac("sha256", secret)
+    //   .update(JSON.stringify(req.body))
+    //   .digest("hex");
     const event = req.body.event;
     if (event === "payment.captured") {
       const paymentData = req.body.payload.payment.entity;
