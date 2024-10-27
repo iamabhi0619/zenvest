@@ -33,6 +33,7 @@ exports.verification = async (req, res) => {
     .createHmac("sha256", secret)
     .update(JSON.stringify(req.body))
     .digest("hex");
+    console.log(`${receivedSignature}\n${generatedSignature}\n`);
   if (receivedSignature === generatedSignature) {
     const event = req.body.event;
     if (event === "payment.captured") {
