@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   gender: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
   number: { type: String, required: true },
+  dp: { type: String },
   regNumber: { type: String, required: true, unique: true },
   regDate: { type: Date, default: Date.now },
   attendance: [{

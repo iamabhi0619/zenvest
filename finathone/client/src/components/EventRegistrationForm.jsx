@@ -8,14 +8,16 @@ import {
   FaGenderless,
 } from "react-icons/fa";
 import { FaRegIdCard } from "react-icons/fa6";
+import { generateAvatar } from './style/dpgenrate'; // Adjust the path accordingly
 
-function EventRegistrationForm({submit}) {
+function EventRegistrationForm({ submit }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     number: "",
     regNumber: "",
     gender: "",
+    dp: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,16 +25,16 @@ function EventRegistrationForm({submit}) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    submit(formData);
+    const avatarURL = generateAvatar(formData.gender);
+    const updatedFormData = { ...formData, dp: avatarURL };
+    submit(updatedFormData);
   };
   return (
     <div className="flex flex-col items-center justify-center my-auto">
       <div className="bg-white w-full max-w-lg md:max-w-md p-8 rounded-3xl shadow-lg font-normal">
-        <div className="">
-          <h1 className="text-2xl font-semibold text-center text-blue mb-6 w-full">
-            Registration Form
-          </h1>
-        </div>
+        <h1 className="text-2xl font-semibold text-center text-blue mb-6 w-full">
+          Registration Form
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="relative items-center flex justify-center">
             <FaUser className="absolute left-3 text-blue text-xl" />
@@ -110,9 +112,7 @@ function EventRegistrationForm({submit}) {
                 className="flex w-20 md:w-24 cursor-pointer border-2 border-gray-300 md:flex-col items-center justify-center rounded-xl bg-gray-50 p-1 transition-transform duration-150 hover:border-blue-400 active:scale-95 peer-checked:border-blue-500 peer-checked:ring-2 peer-checked:bg-[#347dc1] text-gray-500 peer-checked:text-white peer-checked:border-0"
               >
                 <FaMale className="text-3xl" />
-                <span className="text-sm uppercase">
-                  Male
-                </span>
+                <span className="text-sm uppercase">Male</span>
               </label>
             </div>
             <div>
@@ -130,9 +130,7 @@ function EventRegistrationForm({submit}) {
                 className="flex w-20 md:w-24 cursor-pointer border-2 border-gray-300 md:flex-col items-center justify-center rounded-xl bg-gray-50 p-1 transition-transform duration-150 hover:border-blue-400 active:scale-95 peer-checked:border-blue-500 peer-checked:ring-2 peer-checked:ring-[#a3386c] peer-checked:bg-[#a3386c] text-gray-500 peer-checked:text-white peer-checked:border-0"
               >
                 <FaFemale className="text-3xl" />
-                <span className="text-sm uppercase">
-                  Female
-                </span>
+                <span className="text-sm uppercase">Female</span>
               </label>
             </div>
             <div>
@@ -150,9 +148,7 @@ function EventRegistrationForm({submit}) {
                 className="flex w-24 cursor-pointer border-2 border-gray-300 md:flex-col items-center justify-center rounded-xl bg-gray-50 p-1 transition-transform duration-150 hover:border-blue-400 active:scale-95 peer-checked:border-blue-500 peer-checked:ring-2 peer-checked:ring-[#bfa5be] peer-checked:bg-[#bfa5be] text-gray-500 peer-checked:text-white peer-checked:border-0"
               >
                 <FaGenderless className="text-3xl" />
-                <span className="text-sm uppercase">
-                  Other
-                </span>
+                <span className="text-sm uppercase">Other</span>
               </label>
             </div>
           </div>

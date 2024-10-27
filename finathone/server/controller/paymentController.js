@@ -33,10 +33,8 @@ exports.verification = async (req, res) => {
     .createHmac("sha256", secret)
     .update(JSON.stringify(req.body))
     .digest("hex");
-
   if (receivedSignature === generatedSignature) {
     const event = req.body.event;
-
     if (event === "payment.captured") {
       const paymentData = req.body.payload.payment.entity;
       const paymentDetails = {
@@ -54,6 +52,7 @@ exports.verification = async (req, res) => {
           email: userData.email,
           gender: userData.gender,
           number: userData.number,
+          dp: userData.dp,
           payment: paymentDetails,
           attendance: []
         },
@@ -63,7 +62,6 @@ exports.verification = async (req, res) => {
       await sendRegMessage(userData);
       console.log("Payment success message sent " + userData.name);
       // Additional logic (e.g., send confirmation email)
-
     } else if (event === "payment.failed") {
       const paymentData = req.body.payload.payment.entity;
       console.log("Payment failed:", paymentData);
