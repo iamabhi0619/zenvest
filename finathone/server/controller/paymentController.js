@@ -13,7 +13,7 @@ exports.createOrder = async (req, res) => {
   const options = {
     amount: 99 * 100,
     currency: "INR",
-    receipt: `receipt_order_${Math.random()}`,
+    receipt: `receipt_order_${Date.now()}`,
     payment_capture: 1,
     notes: data,
   };
@@ -25,16 +25,18 @@ exports.createOrder = async (req, res) => {
     res.status(500).json({ error: "Payment initiation failed" });
   }
 };
+
+
 exports.verification = async (req, res) => {
   const secret = process.env.RAZER_WSECRET;
-  console.log(secret);
-  
   const receivedSignature = req.headers["x-razorpay-signature"];
   const generatedSignature = crypto
     .createHmac("sha256", secret)
-    .update(JSON.stringify(req.body))
+    .update(req.rawBody)
     .digest("hex");
-    console.log(`${receivedSignature}\n${generatedSignature}\n`);
+  console.log(`Secret: ${secret}`);
+  console.log(`Received Signature: ${receivedSignature}`);
+  console.log(`Generated Signature: ${generatedSignature}`);
   if (receivedSignature === generatedSignature) {
     const event = req.body.event;
     if (event === "payment.captured") {
@@ -63,11 +65,9 @@ exports.verification = async (req, res) => {
 
       await sendRegMessage(userData);
       console.log("Payment success message sent " + userData.name);
-      // Additional logic (e.g., send confirmation email)
     } else if (event === "payment.failed") {
       const paymentData = req.body.payload.payment.entity;
       console.log("Payment failed:", paymentData);
-      // Handle payment failure logic here
     }
 
     res.status(200).json({ status: "ok" });

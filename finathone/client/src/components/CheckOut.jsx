@@ -15,7 +15,6 @@ export const CheckOut = ({ data }) => {
         data
       );
       const { id: orderId } = response.data;
-
       const options = {
         key: "rzp_test_03LXELXxAaFSja",
         amount: response.data.amount,
