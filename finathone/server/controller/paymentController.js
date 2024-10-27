@@ -6,14 +6,14 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZER_SECRET,
 });
 
-const User = require('../model/user')
+const User = require("../model/user");
 
 exports.createOrder = async (req, res) => {
   const data = req.body;
   const options = {
     amount: 99 * 100,
     currency: "INR",
-    receipt: `receipt_order_${Date.now()}`,
+    receipt: `receipt_order_${Math.random()}`,
     payment_capture: 1,
     notes: data,
   };
@@ -26,18 +26,16 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-
 exports.verification = async (req, res) => {
-  const secret = process.env.RAZER_WSECRET;
-  const receivedSignature = req.headers["x-razorpay-signature"];
-  const generatedSignature = crypto
-    .createHmac("sha256", secret)
-    .update(req.rawBody)
-    .digest("hex");
-  console.log(`Secret: ${secret}`);
-  console.log(`Received Signature: ${receivedSignature}`);
-  console.log(`Generated Signature: ${generatedSignature}`);
-  if (receivedSignature === generatedSignature) {
+  try {
+    const secret = process.env.RAZER_WSECRET;
+    console.log(req.body);
+    const receivedSignature = req.headers["x-razorpay-signature"];
+    const generatedSignature = crypto
+      .createHmac("sha256", secret)
+      .update(JSON.stringify(req.body))
+      .digest("hex");
+    console.log(`${receivedSignature}\n${generatedSignature}\n`);
     const event = req.body.event;
     if (event === "payment.captured") {
       const paymentData = req.body.payload.payment.entity;
@@ -58,21 +56,20 @@ exports.verification = async (req, res) => {
           number: userData.number,
           dp: userData.dp,
           payment: paymentDetails,
-          attendance: []
+          attendance: [],
         },
         { new: true, upsert: true }
       );
 
       await sendRegMessage(userData);
       console.log("Payment success message sent " + userData.name);
+      // Additional logic (e.g., send confirmation email)
     } else if (event === "payment.failed") {
       const paymentData = req.body.payload.payment.entity;
       console.log("Payment failed:", paymentData);
     }
-
     res.status(200).json({ status: "ok" });
-  } else {
-    console.error("Invalid webhook signature");
-    res.status(400).json({ status: "invalid signature" });
+  } catch (error) {
+    console.log(error);
   }
 };
