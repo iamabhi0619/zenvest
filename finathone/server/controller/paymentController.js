@@ -25,9 +25,10 @@ exports.createOrder = async (req, res) => {
     res.status(500).json({ error: "Payment initiation failed" });
   }
 };
-
 exports.verification = async (req, res) => {
   const secret = process.env.RAZER_WSECRET;
+  console.log(secret);
+  
   const receivedSignature = req.headers["x-razorpay-signature"];
   const generatedSignature = crypto
     .createHmac("sha256", secret)
