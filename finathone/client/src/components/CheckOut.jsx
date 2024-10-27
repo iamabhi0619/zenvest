@@ -11,7 +11,7 @@ export const CheckOut = ({ data }) => {
     try {
       setLoading(true)
       const response = await axios.post(
-        "http://localhost:5000/api/payment",
+        "/api/payment",
         data
       );
       const { id: orderId } = response.data;
