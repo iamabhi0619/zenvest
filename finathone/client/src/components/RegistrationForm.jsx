@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import FinathonHeading from "./FinathonHeading";
+import { FaIdCard, FaUser } from "react-icons/fa6";
 const RegistrationForm = () => {
   const fdata = {
     name: "",
@@ -49,157 +50,42 @@ const RegistrationForm = () => {
     setFormData(fdata);
   };
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <h2 className="text-2xl font-bold text-center mb-4">Registration Form</h2>
-      <form onSubmit={handleSubmit} className="w-full">
-        <div className="w-full flex flex-col md:flex-row bg-white shadow-md rounded-lg p-6 gap-6">
-          <div className="flex-1 flex flex-col space-y-4">
+    <div className="flex items-center my-auto justify-center flex-col h-full dark:bg-blue-lightDark rounded-xl shadow-lg bg-blue-light">
+      <div>
+        <FinathonHeading />
+      </div>
+      <div>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2 text-2xl text-blue-dark dark:text-white font-normal">
+          <div className="flex items-center justify-start gap-2">
+            <FaUser size={30} className="dark:text-blue-300 text-blue-950"/>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Name
-              </label>
               <input
                 type="text"
                 name="name"
+                placeholder="Full Name"
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                className="mt-1 w-full bg-white bg-opacity-20 rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 dark:focus:ring-blue-300 focus:ring-blue-950 placeholder:text-gray-800"
               />
             </div>
+          </div>
+          <div className="flex items-center justify-start gap-2">
+            <FaIdCard size={30} className="dark:text-red-300 text-red-950"/>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Registration Number
-              </label>
               <input
                 type="text"
                 name="registrationNumber"
+                placeholder="Registration Numar"
                 value={formData.registrationNumber}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                WhatsApp Number
-              </label>
-              <input
-                type="tel"
-                name="number"
-                value={formData.number}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                className="mt-1 w-full bg-white bg-opacity-20 rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 dark:focus:ring-red-300 focus:ring-blue-950 placeholder:text-gray-800"
               />
             </div>
           </div>
-          <div className="flex-1 flex flex-col space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Gender
-              </label>
-              <div className="flex space-x-4 mt-2">
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="male"
-                    onChange={handleChange}
-                    checked={formData.gender === "male"}
-                    required
-                    className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                  />
-                  <label className="ml-2 text-sm text-gray-700">Male</label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="female"
-                    onChange={handleChange}
-                    checked={formData.gender === "female"}
-                    required
-                    className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                  />
-                  <label className="ml-2 text-sm text-gray-700">Female</label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="other"
-                    onChange={handleChange}
-                    checked={formData.gender === "other"}
-                    required
-                    className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                  />
-                  <label className="ml-2 text-sm text-gray-700">Other</label>
-                </div>
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Course
-              </label>
-              <select
-                name="course"
-                value={formData.course}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-              >
-                <option value="">Select Course</option>
-                <option value="computer science">Computer Science</option>
-                <option value="information technology">
-                  Information Technology
-                </option>
-                <option value="business administration">
-                  Business Administration
-                </option>
-                <option value="engineering">Engineering</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Course Year
-              </label>
-              <select
-                name="courseYear"
-                value={formData.courseYear}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-              >
-                <option value="">Select Year</option>
-                <option value="1">1st Year</option>
-                <option value="2">2nd Year</option>
-                <option value="3">3rd Year</option>
-                <option value="4">4th Year</option>
-              </select>
-            </div>
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
-            >
-              Pay
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

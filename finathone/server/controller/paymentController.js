@@ -6,6 +6,8 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZER_SECRET,
 });
 
+const User = require('../model/user')
+
 exports.createOrder = async (req, res) => {
   const data = req.body;
   const options = {
@@ -23,6 +25,7 @@ exports.createOrder = async (req, res) => {
     res.status(500).json({ error: "Payment initiation failed" });
   }
 };
+
 exports.verification = async (req, res) => {
   const secret = process.env.RAZER_WSECRET;
   const receivedSignature = req.headers["x-razorpay-signature"];
@@ -30,18 +33,43 @@ exports.verification = async (req, res) => {
     .createHmac("sha256", secret)
     .update(JSON.stringify(req.body))
     .digest("hex");
+
   if (receivedSignature === generatedSignature) {
     const event = req.body.event;
+
     if (event === "payment.captured") {
       const paymentData = req.body.payload.payment.entity;
-      await sendRegMessage(paymentData.notes);
-      console.log("Payment sucess message sent " + paymentData.notes.name);
-      // Update your database, send a confirmation email, etc.
+      const paymentDetails = {
+        orderId: paymentData.order_id,
+        paymentId: paymentData.id,
+        signature: paymentData.signature,
+        status: paymentData.status,
+        amount: paymentData.amount / 100,
+      };
+      const userData = paymentData.notes;
+      await User.findOneAndUpdate(
+        { regNumber: userData.regNumber },
+        {
+          name: userData.name,
+          email: userData.email,
+          gender: userData.gender,
+          number: userData.number,
+          payment: paymentDetails,
+          attendance: []
+        },
+        { new: true, upsert: true }
+      );
+
+      await sendRegMessage(userData);
+      console.log("Payment success message sent " + userData.name);
+      // Additional logic (e.g., send confirmation email)
+
     } else if (event === "payment.failed") {
       const paymentData = req.body.payload.payment.entity;
       console.log("Payment failed:", paymentData);
       // Handle payment failure logic here
     }
+
     res.status(200).json({ status: "ok" });
   } else {
     console.error("Invalid webhook signature");

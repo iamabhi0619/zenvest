@@ -1,0 +1,93 @@
+:root {
+  --light-gradient: linear-gradient(
+    to right,
+    #052f52 20%,
+    #021f07 30%,
+    #2e0328 70%,
+    #492702 80%
+  );
+  --dark-gradient: linear-gradient(
+    to right,
+    #ff9a00 20%,
+    #ff4d00 30%,
+    #c70039 70%,
+    #900c3f 80%
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  .heading {
+    background: var(--dark-gradient);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .heading {
+    background: var(--light-gradient);
+  }
+}
+
+@keyframes drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes textShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+.heading {
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: bold;
+  background-size: 600% 600%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 500% auto;
+  animation: textShine 5s ease-in-out infinite alternate;
+}
+
+.letter {
+  display: inline-block;
+  opacity: 0;
+  animation: drop 0.5s forwards;
+}
+
+.letter:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.letter:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.letter:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.letter:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.letter:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.letter:nth-child(6) {
+  animation-delay: 0.6s;
+}
+.letter:nth-child(7) {
+  animation-delay: 0.7s;
+}
+.letter:nth-child(8) {
+  animation-delay: 0.8s;
+}
+.letter:nth-child(9) {
+  animation-delay: 0.9s;
+}
