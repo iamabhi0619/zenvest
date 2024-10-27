@@ -9,7 +9,7 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col items-center h-screen bg-[#3e688c] p-3">
+    <div className="flex flex-col h-screen items-center bg-[#3e688c] p-3">
       <header className="w-full text-white text-center font-semibold text-xl flex flex-col items-center justify-center">
         <p className="text-5xl font-outline font-bold md:tracking-widest outline-1 outline-white">
           FIN-A-THON

@@ -39,6 +39,7 @@ exports.verification = async (req, res) => {
     const event = req.body.event;
     if (event === "payment.captured") {
       const paymentData = req.body.payload.payment.entity;
+      console.log(paymentData);
       const paymentDetails = {
         orderId: paymentData.order_id,
         paymentId: paymentData.id,
