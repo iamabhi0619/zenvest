@@ -11,7 +11,7 @@ const User = require("../model/user");
 exports.createOrder = async (req, res) => {
   const data = req.body;
   const options = {
-    amount: 99 * 100,
+    amount: 1 * 100,
     currency: "INR",
     receipt: `receipt_order_${Math.random()}`,
     payment_capture: 1,
