@@ -25,19 +25,22 @@ exports.createOrder = async (req, res) => {
     res.status(500).json({ error: "Payment initiation failed" });
   }
 };
-
 exports.verification = async (req, res) => {
   try {
-    // const secret = process.env.RAZER_WSECRET;
-    // const receivedSignature = req.headers["x-razorpay-signature"];
-    // const generatedSignature = crypto
-    //   .createHmac("sha256", secret)
-    //   .update(JSON.stringify(req.body))
-    //   .digest("hex");
     const event = req.body.event;
+    const razorpaySignature = req.headers['x-razorpay-signature'];
+    const webhookSecret = process.env.RAZER_WSECRET;
+    // Verify the signature
+    const body = JSON.stringify(req.body);
+    const expectedSignature = crypto
+      .createHmac('sha256', webhookSecret)
+      .update(body)
+      .digest('hex');
+    if (expectedSignature !== razorpaySignature) {
+      return res.status(400).json({ status: "error", message: "Invalid signature" });
+    }
     if (event === "payment.captured") {
       const paymentData = req.body.payload.payment.entity;
-      console.log(paymentData);
       const paymentDetails = {
         orderId: paymentData.order_id,
         paymentId: paymentData.id,
@@ -46,6 +49,7 @@ exports.verification = async (req, res) => {
         amount: paymentData.amount / 100,
       };
       const userData = paymentData.notes;
+      await sendRegMessage(userData);
       await User.findOneAndUpdate(
         { regNumber: userData.regNumber },
         {
@@ -59,8 +63,6 @@ exports.verification = async (req, res) => {
         },
         { new: true, upsert: true }
       );
-
-      await sendRegMessage(userData);
       console.log("Payment success message sent " + userData.name);
       // Additional logic (e.g., send confirmation email)
     } else if (event === "payment.failed") {
@@ -69,6 +71,7 @@ exports.verification = async (req, res) => {
     }
     res.status(200).json({ status: "ok" });
   } catch (error) {
-    console.log(error);
+    console.error("Webhook verification failed:", error);
+    res.status(500).json({ status: "error", message: "Internal Server Error" });
   }
 };
