@@ -16,7 +16,7 @@ export const CheckOut = ({ data }) => {
       );
       const { id: orderId } = response.data;
       const options = {
-        key: "rzp_test_03LXELXxAaFSja",
+        key: process.env.RAZER_ID || "rzp_test_RREjFd2jhiYTsA",
         amount: response.data.amount,
         currency: response.data.currency,
         name: "ZENVEST",
