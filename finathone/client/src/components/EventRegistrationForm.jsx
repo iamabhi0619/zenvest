@@ -10,7 +10,7 @@ import {
 import { FaRegIdCard } from "react-icons/fa6";
 import { generateAvatar } from "./style/dpgenrate";
 
-function EventRegistrationForm({ onSubmit }) {
+function EventRegistrationForm({ submit }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,8 +27,6 @@ function EventRegistrationForm({ onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Basic validation (can be enhanced)
     if (
       !formData.name ||
       !formData.email ||
@@ -39,10 +37,9 @@ function EventRegistrationForm({ onSubmit }) {
       alert("Please fill all fields.");
       return;
     }
-
     const avatarURL = generateAvatar(formData.gender);
     const updatedFormData = { ...formData, dp: avatarURL };
-    onSubmit(updatedFormData);
+    submit(updatedFormData);
   };
 
   return (
