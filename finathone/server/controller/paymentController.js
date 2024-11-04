@@ -62,12 +62,14 @@ exports.verification = async (req, res) => {
         },
         { new: true, upsert: true }
       );
+      res.status(200).json({ status: "ok" });
       await sendEmail(userData);
       await sendRegMessage(userData);
       console.log("Payment success message sent " + userData.name);
     } else if (event === "payment.failed") {
       const paymentData = req.body.payload.payment.entity;
       console.log("Payment failed:", paymentData);
+      res.status(200).json({ status: "ok" });
     }
     res.status(200).json({ status: "ok" });
   } catch (error) {
