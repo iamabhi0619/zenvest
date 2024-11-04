@@ -25,7 +25,7 @@ async function sendEmail(e) {
       address: "official@zenvest.live"
     },
     to: e.email,
-    subject: "Thank You for Registering as a Member of Zenvest LPU!",
+    subject: "You're In! FINATHON Registration Confirmation 🎟️",
     html: htmlTemp,
     attachments: [
       {

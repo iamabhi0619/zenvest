@@ -62,7 +62,6 @@ exports.verification = async (req, res) => {
         },
         { new: true, upsert: true }
       );
-      
       await sendRegMessage(userData);
       await sendEmail(userData);
       console.log("Payment success message sent " + userData.name);
