@@ -27,14 +27,14 @@ exports.createOrder = async (req, res) => {
 exports.verification = async (req, res) => {
   try {
     const event = req.body.event;
-    const razorpaySignature = req.headers['x-razorpay-signature'];
+    const razorpaySignature = req.headers["x-razorpay-signature"];
     const webhookSecret = process.env.RAZER_WSECRET;
     // Verify the signature
     const body = JSON.stringify(req.body);
     const expectedSignature = crypto
-      .createHmac('sha256', webhookSecret)
+      .createHmac("sha256", webhookSecret)
       .update(body)
-      .digest('hex');
+      .digest("hex");
     // if (expectedSignature !== razorpaySignature) {
     //   console.log("Invalid signature" + expectedSignature + razorpaySignature);
     //   return res.status(400).json({ status: "error", message: "Invalid signature" });
@@ -62,8 +62,8 @@ exports.verification = async (req, res) => {
         },
         { new: true, upsert: true }
       );
-      await sendRegMessage(userData);
       await sendEmail(userData);
+      await sendRegMessage(userData);
       console.log("Payment success message sent " + userData.name);
     } else if (event === "payment.failed") {
       const paymentData = req.body.payload.payment.entity;
