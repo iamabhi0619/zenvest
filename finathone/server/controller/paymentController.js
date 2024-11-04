@@ -25,23 +25,22 @@ exports.createOrder = async (req, res) => {
   }
 };
 exports.verification = async (req, res) => {
+  let responseSent = false;
   try {
     const event = req.body.event;
     const razorpaySignature = req.headers["x-razorpay-signature"];
     const webhookSecret = process.env.RAZER_WSECRET;
-
-    // Verify the signature
     const body = JSON.stringify(req.body);
     const expectedSignature = crypto
       .createHmac("sha256", webhookSecret)
       .update(body)
       .digest("hex");
-
     // if (expectedSignature !== razorpaySignature) {
     //   console.log("Invalid signature:", { expectedSignature, razorpaySignature });
-    //   return res.status(400).json({ status: "error", message: "Invalid signature" });
+    //   res.status(400).json({ status: "error", message: "Invalid signature" });
+    //   responseSent = true;
+    //   return;
     // }
-
     if (event === "payment.captured") {
       const paymentData = req.body.payload.payment.entity;
       const paymentDetails = {
@@ -51,9 +50,14 @@ exports.verification = async (req, res) => {
         status: paymentData.status,
         amount: paymentData.amount / 100,
       };
-
+      const existingUser = await User.findOne({ "payment.paymentId": paymentData.id });
+      if (existingUser) {
+        console.log("Duplicate webhook event received for paymentId:", paymentData.id);
+        res.status(200).json({ status: "ok" });
+        responseSent = true;
+        return;
+      }
       const userData = paymentData.notes;
-
       await User.findOneAndUpdate(
         { regNumber: userData.regNumber },
         {
@@ -67,19 +71,26 @@ exports.verification = async (req, res) => {
         },
         { new: true, upsert: true }
       );
-
-      res.status(200).json({ status: "ok" });
-
       await sendEmail(userData);
       await sendRegMessage(userData);
       console.log("Payment success message sent to", userData.name);
+      res.status(200).json({ status: "ok" });
+      responseSent = true;
     } else if (event === "payment.failed") {
       const paymentData = req.body.payload.payment.entity;
       console.log("Payment failed:", paymentData);
       res.status(200).json({ status: "ok" });
+      responseSent = true;
     }
   } catch (error) {
     console.error("Webhook verification failed:", error);
-    res.status(500).json({ status: "error", message: "Internal Server Error" });
+    if (!responseSent) {
+      res.status(500).json({ status: "error", message: "Internal Server Error" });
+    }
+  } finally {
+    if (!responseSent) {
+      res.status(200).json({ status: "ok" });
+      console.log("Final response sent to ensure no retries.");
+    }
   }
 };
