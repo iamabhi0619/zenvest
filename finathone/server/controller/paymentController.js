@@ -5,9 +5,8 @@ const razorpay = new Razorpay({
   key_id: process.env.RAZER_ID,
   key_secret: process.env.RAZER_SECRET,
 });
-
 const User = require("../model/user");
-
+const { sendEmail } = require("../service/SendEmail");
 exports.createOrder = async (req, res) => {
   const data = req.body;
   const options = {
@@ -50,7 +49,6 @@ exports.verification = async (req, res) => {
         amount: paymentData.amount / 100,
       };
       const userData = paymentData.notes;
-      await sendRegMessage(userData);
       await User.findOneAndUpdate(
         { regNumber: userData.regNumber },
         {
@@ -64,8 +62,10 @@ exports.verification = async (req, res) => {
         },
         { new: true, upsert: true }
       );
+      
+      await sendRegMessage(userData);
+      await sendEmail(userData);
       console.log("Payment success message sent " + userData.name);
-      // Additional logic (e.g., send confirmation email)
     } else if (event === "payment.failed") {
       const paymentData = req.body.payload.payment.entity;
       console.log("Payment failed:", paymentData);
