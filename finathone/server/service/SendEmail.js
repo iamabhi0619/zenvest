@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 const { generateTicket } = require('./GenrateTicket');
-const htmlpath = path.join('./', 'emailSend.html');
+const htmlpath = path.join(__dirname, 'emailSend.html');
 const htmlcode = fs.readFileSync(htmlpath, 'utf-8');
 const transporter = nodemailer.createTransport({
   host: "smtp.zoho.in",
