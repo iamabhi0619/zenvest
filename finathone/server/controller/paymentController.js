@@ -10,7 +10,7 @@ const { sendEmail } = require("../service/SendEmail");
 exports.createOrder = async (req, res) => {
   const data = req.body;
   const options = {
-    amount: 1 * 100,
+    amount: 99 * 100,
     currency: "INR",
     receipt: `receipt_order_${Math.random()}`,
     payment_capture: 1,
