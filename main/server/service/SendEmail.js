@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 async function sendEmailContect(e) {
-  let htmlTemp = htmlcode.replace('{{name}}', e.name).replace('{{subject}}',e.subject).replace('{{message}}',e.message);
+  let htmlTemp = htmlcode.replace('{{name}}', e.name).replace('{{name2}}', e.name).replace('{{subject}}',e.subject).replace('{{message}}',e.message);
   const mailOptions = {
     from: {
       name: 'ZENVEST',

@@ -100,7 +100,7 @@ function UsersList() {
       </div>
 
       {/* Pagination Controls */}
-      <div className="mt-6 flex justify-between items-center">
+      <div className="mt-3 flex justify-between items-center">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
