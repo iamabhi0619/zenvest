@@ -5,7 +5,7 @@ const razorpay = new Razorpay({
   key_id: process.env.RAZER_ID,
   key_secret: process.env.RAZER_SECRET,
 });
-const User = require("../model/user");
+const { Finathone } = require('../model/finathoneUser');
 const { sendEmail } = require("../service/SendEmail");
 exports.createOrder = async (req, res) => {
   const data = req.body;
@@ -50,7 +50,7 @@ exports.verification = async (req, res) => {
         status: paymentData.status,
         amount: paymentData.amount / 100,
       };
-      const existingUser = await User.findOne({ "payment.paymentId": paymentData.id });
+      const existingUser = await Finathone.findOne({ "payment.paymentId": paymentData.id });
       if (existingUser) {
         console.log("Duplicate webhook event received for paymentId:", paymentData.id);
         res.status(200).json({ status: "ok" });
@@ -58,7 +58,7 @@ exports.verification = async (req, res) => {
         return;
       }
       const userData = paymentData.notes;
-      await User.findOneAndUpdate(
+      await Finathone.findOneAndUpdate(
         { regNumber: userData.regNumber },
         {
           name: userData.name,

@@ -21,4 +21,6 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Finathon1.0-User', userSchema);
+const Finathone = mongoose.model('Finathon1.0-User', userSchema);
+
+module.exports = {Finathone}
