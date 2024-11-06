@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Carousels from "../components/Carousels";
 import Profile from "../components/Profile";
+import { useNavigate } from "react-router-dom";
 function Home() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   useEffect(() => {
     fetch("/api/member")
@@ -15,6 +17,9 @@ function Home() {
   }, []);
   return (
     <div>
+      <div className="md:hidden items-center justify-center flex mb-2">
+        <button className="text-center bg-themColor-ligthblue font-suse text-2xl tracking-wider px-2 py-0.5 rounded-xl  font-bold" onClick={()=>{navigate('/join')}}>Join Now</button>
+      </div>
       <div className="scroll-wrapper">
       <div className="scroll-content">
         {userData.map((udata) => (

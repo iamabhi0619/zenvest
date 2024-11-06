@@ -8,6 +8,7 @@ const path = require("path");
 const userRouts = require("./routes/user");
 // const collab = require("./routes/collab");
 const memberRouts = require("./routes/member");
+const finathoneRouts = require("./routes/finathone");
 
 const app = express();
 dotenv.config();
@@ -28,6 +29,7 @@ main().catch((err) => {
 
 app.use("/api/user", userRouts.routes);
 app.use("/api/member", memberRouts.routes);
+app.use("/api/finathone", finathoneRouts.routes);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));

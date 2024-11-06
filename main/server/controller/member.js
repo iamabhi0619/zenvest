@@ -1,12 +1,12 @@
 const { Member } = require("../model/member.js");
 const bcrypt = require("bcrypt");
-// const { generateToken } = require("../service/jwttoken.js");
+const { generateToken } = require("../service/jwttoken.js");
 // const { generatePassword } = require("../service/passwordReset.js");
-// const {sendEmail} = require("../service/emailpassword.js");
+// const { sendEmail } = require("../service/emailpassword.js");
 
 exports.createMember = async (req, res) => {
   try {
-    const { id, name, image,post, socialLinks, email, password } = req.body;
+    const { id, name, image, post, socialLinks, email, password } = req.body;
     if (!id || !name || !email || !password || !image) {
       return res.status(400).json({ status: "ERROR", message: "Missing required fields" });
     }
@@ -23,8 +23,23 @@ exports.createMember = async (req, res) => {
     const savedMember = await createdMember.save();
     res.status(201).json({ status: "OK", user: savedMember });
   } catch (error) {
-    console.error('Error creating member:', error);
+    console.error("Error creating member:", error);
     res.status(500).json({ status: "ERROR", message: "An error occurred while creating the member" });
+  }
+};
+
+exports.getDetails = async (req, res) => {
+  try {
+    const id  = req.user.id;
+    console.log(req.params);
+    const memberfound = await Member.findOne({ id });
+    if (!memberfound) {
+      return res.status(404).json({ status: "ERROR", message: "Member not found" });
+    }
+    res.status(200).json({ status: "OK", data: memberfound });
+  } catch (error) {
+    console.error("Error retrieving member details:", error);
+    res.status(500).json({ status: "ERROR", message: "Server error" });
   }
 };
 
@@ -33,88 +48,70 @@ exports.getAllMember = async (req, res) => {
     const members = await Member.find({}, { password: 0 }).sort({ _id: -1 });
     res.status(200).json({ status: "OK", user: members });
   } catch (error) {
-    console.error('Error geting member:', error);
-    res.status(500).json({ status: "ERROR", message: "An error occurred while geting the member" });
+    console.error("Error getting members:", error);
+    res.status(500).json({ status: "ERROR", message: "An error occurred while retrieving members" });
   }
-}
+};
 
-// exports.loginMember = async (req, res) => {
-//   try {
-//     const { id, password } = req.body;
-//     console.log(req.body);
-//     const memberfound = await Member.findOne({ id });
-//     if (!memberfound) {
-//       console.log("User not found");
-//       return res.json({ status: "error", message: "Invalid Credentials" });
-//     }
-//     const ispassword = await bcrypt.compare(password, memberfound.password);
-//     if (!ispassword) {
-//       console.log("Incorrect Password");
-//       return res.json({ status: "error", message: "Invalid Credentials" });
-//     }
-//     const token = generateToken(memberfound);
-//     return res.json({ status: "ok", message: token });
-//   } catch (error) {
-//     console.error(error);
-//     return res.json({ status: "Error", message: "Server Error" });
-//   }
-// };
+exports.loginMember = async (req, res) => {
+  try {
+    const { id, password } = req.body;
+    const memberfound = await Member.findOne({ id });
+    if (!memberfound) {
+      return res.status(401).json({ status: "ERROR", message: "Invalid credentials" });
+    }
+    const isPasswordCorrect = await bcrypt.compare(password, memberfound.password);
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ status: "ERROR", message: "Invalid credentials" });
+    }
+    const token = generateToken(memberfound);
+    return res.status(200).json({ status: "OK", token });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ status: "ERROR", message: "Server error" });
+  }
+};
 
-// exports.forgetPassword = async (req, res) => {
-//   try {
-//     const { email } = req.body;
-//     const memberfound = await Member.findOne({ email });
-//     if (!memberfound) {
-//       return res.json({ status: "error", message: "No user found" });
-//     }
-//     const newPassword = generatePassword();
-//     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-    
-//     const updatedData = { password: hashedNewPassword };
-    
-//     const updatedUser = await Member.findOneAndUpdate(
-//       { email: email },
-//       updatedData,
-//       { new: true }
-//     );
-//     if (!updatedUser) {
-//       return res.json({ status: "error", message: "Not able to change the password" });
-//     }
+exports.forgetPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const memberfound = await Member.findOne({ email });
+    if (!memberfound) {
+      return res.status(404).json({ status: "ERROR", message: "No user found with that email" });
+    }
+    const newPassword = generatePassword();
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
-//     sendEmail(updatedUser, newPassword);
-//     return res.json({ status: "ok", message: "New password has been sent to email" });
-//   } catch (error) {
-//     console.error(error);
-//     return res.json({ status: "Error", message: "Server Error" });
-//   }
-// };
+    const updatedData = { password: hashedNewPassword };
+    await Member.findOneAndUpdate({ email }, updatedData);
 
-// exports.resetPassword = async (req, res) => {
-//   try {
-//     const { oldPassword, newPassword } = req.body;
-//     const id = req.params.id;
+    sendEmail(memberfound, newPassword);
+    res.status(200).json({ status: "OK", message: "New password has been sent to email" });
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    res.status(500).json({ status: "ERROR", message: "Server error" });
+  }
+};
 
-//     const memberfound = await Member.findOne({ id: id });
-//     if (!memberfound) {
-//       return res.json({ status: "error", message: "User not found" });
-//     }
+exports.resetPassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const { id } = req.params;
 
-//     const isPasswordCorrect = await bcrypt.compare(oldPassword, memberfound.password);
-//     if (!isPasswordCorrect) {
-//       return res.json({ status: "error", message: "Incorrect old password" });
-//     }
+    const memberfound = await Member.findOne({ id });
+    if (!memberfound) {
+      return res.status(404).json({ status: "ERROR", message: "User not found" });
+    }
 
-//     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-//     const updatedData = { password: hashedNewPassword };
-
-//     const updatedUser = await Member.findOneAndUpdate(
-//       { id: id },
-//       updatedData,
-//       { new: true }
-//     );
-//     return res.json({ status: "ok", message: "Password updated" });
-//   } catch (error) {
-//     console.error(error);
-//     return res.json({ status: "Error", message: "Server error" });
-//   }
-// };
+    const isPasswordCorrect = await bcrypt.compare(oldPassword, memberfound.password);
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ status: "ERROR", message: "Incorrect old password" });
+    }
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    await Member.findOneAndUpdate({ id }, { password: hashedNewPassword });
+    res.status(200).json({ status: "OK", message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    res.status(500).json({ status: "ERROR", message: "Server error" });
+  }
+};

@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
-import Explore from "./pages/Explore";
 import Service from "./pages/Service";
 import Contact from "./pages/Contact";
+import Login from "./components/Login";
+import FinTable from "./components/FinTable";
+import UserReg from "./components/UserReg";
 
 function App() {
   return (
@@ -14,8 +16,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/service" element={<Service />} />
-            <Route path="/explore" element={<Explore />} />
+            <Route path="/join" element={<UserReg />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/finathone1.0" element={<FinTable />} />
           </Routes>
         </div>
       </div>

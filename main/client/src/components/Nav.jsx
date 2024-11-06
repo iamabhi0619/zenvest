@@ -40,20 +40,21 @@ function Nav() {
           </li>
           <li
             className={`px-4 py-1 rounded-xl text-lg transition-all hover:cursor-pointer ${
-              isActive("/explore") ? "bg-themColor-ligthblue text-themColor-blue" : "hover:bg-themColor-white hover:text-themColor-blue text-themColor-ligthblue"
-            }`}
-            onClick={() => handleNavigation("/explore")}
-          >
-            Explore
-          </li>
-          <li
-            className={`px-4 py-1 rounded-xl text-lg transition-all hover:cursor-pointer ${
               isActive("/contact") ? "bg-themColor-ligthblue text-themColor-blue" : "hover:bg-themColor-white hover:text-themColor-blue text-themColor-ligthblue"
             }`}
             onClick={() => handleNavigation("/contact")}
           >
             Contact
           </li>
+          <li
+            className={`px-4 py-1 rounded-xl text-lg transition-all hover:cursor-pointer ${
+              isActive("/contact") ? "bg-themColor-ligthblue text-themColor-blue" : "hover:bg-themColor-white hover:text-themColor-blue text-themColor-ligthblue"
+            }`}
+            onClick={() => handleNavigation("/join")}
+          >
+            Join
+          </li>
+          
         </ul>
         <div
           className="md:hidden block text-2xl text-themColor-ligthblue cursor-pointer"
@@ -86,20 +87,21 @@ function Nav() {
         </li>
         <li
           className={`list-none w-full py-2 rounded-3xl text-center hover:cursor-pointer ${
-            isActive("/explore") ? "bg-themColor-ligthblue text-themColor-blue" : "hover:bg-themColor-white hover:text-themColor-blue text-themColor-ligthblue"
-          }`}
-          onClick={() => handleNavigation("/explore")}
-        >
-          Explore
-        </li>
-        <li
-          className={`list-none w-full py-2 rounded-3xl text-center hover:cursor-pointer ${
             isActive("/contact") ? "bg-themColor-ligthblue text-themColor-blue" : "hover:bg-themColor-white hover:text-themColor-blue text-themColor-ligthblue"
           }`}
           onClick={() => handleNavigation("/contact")}
         >
           Contact
         </li>
+        <li
+          className={`list-none w-full py-2 rounded-3xl text-center hover:cursor-pointer ${
+            isActive("/contact") ? "bg-themColor-ligthblue text-themColor-blue" : "hover:bg-themColor-white hover:text-themColor-blue text-themColor-ligthblue"
+          }`}
+          onClick={() => handleNavigation("/join")}
+        >
+          Join
+        </li>
+        
       </ul>
     </header>
   );

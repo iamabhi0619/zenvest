@@ -49,7 +49,13 @@ function UserReg() {
     }
   };
   return (
-    <div className="min-h-screen flex items-center justify-center p-5 text-white">
+    <div
+      className="flex items-center justify-center p-5 text-white"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right top, #051937, #002440, #002e3a, #003427, #05390d)",
+      }}
+    >
       <section className="bg- w-full p-5 rounded-lg h-full md:flex md:gap-4 justify-between font-Poppins tracking-wide">
         <div className="flex flex-row items-center md:w-3/6 md:flex-col my-auto md:gap-8 border-b pb-2 md:border-0 md:pb-0 gap-2">
           <div className="">
