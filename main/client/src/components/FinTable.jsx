@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 function UsersList() {
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -140,6 +140,9 @@ function UsersList() {
             </p>
             <p>
               <strong className="text-indigo-600">Reg Number:</strong> {selectedUser.regNumber}
+            </p>
+            <p>
+              <strong className="text-indigo-600">Number:</strong> {selectedUser.number}
             </p>
           </div>
       

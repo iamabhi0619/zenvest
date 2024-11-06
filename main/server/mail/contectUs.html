@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .header {
+      background-color: #4a90e2;
+      color: #ffffff;
+      padding: 30px;
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0;
+    }
+    .content {
+      padding: 20px 30px;
+    }
+    .content p {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.6;
+    }
+    .summary-box {
+      background-color: #f9fafb;
+      border: 1px solid #e0e4e8;
+      border-radius: 6px;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .summary-box ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    .summary-box li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      color: #333;
+    }
+    .summary-box li strong {
+      margin-left: 10px;
+    }
+    .icon {
+      background-color: #e3f2fd;
+      color: #4a90e2;
+      border-radius: 50%;
+      padding: 6px;
+      display: inline-block;
+    }
+    .button-container {
+      text-align: center;
+      margin-top: 25px;
+    }
+    .button {
+      background-color: #4a90e2;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .footer {
+      background-color: #f4f6f9;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Thank You for Getting in Touch!</h1>
+    </div>
+    <div class="content">
+      <p>Hello {{name}},</p>
+      <p>We appreciate you reaching out to ZENVEST. We’ve received your message, and a member of our team will get back to you soon. Below is a summary of the details you provided:</p>
+      
+      <div class="summary-box">
+        <ul>
+          <li><span class="icon">👤</span> <strong>Name:</strong> {{name}}</li>
+          <li><span class="icon">📝</span> <strong>Subject:</strong> {{subject}}</li>
+          <li><span class="icon">💬</span> <strong>Message:</strong> {{message}}</li>
+        </ul>
+      </div>
+
+      <p>If you’d like to provide additional information, simply reply to this email.</p>
+
+      <div class="button-container">
+        <a href="zenvest.live" class="button">Visit Our Website</a>
+      </div>
+
+      <p>Thanks again for choosing ZENVEST! We’re excited to assist you with your project.</p>
+    </div>
+    <div class="footer">
+      <p>&copy; 2024 ZENVEST. All rights reserved.</p>
+      <p>LPU | 6206418701</p>
+    </div>
+  </div>
+</body>
+</html>

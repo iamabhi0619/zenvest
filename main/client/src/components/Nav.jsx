@@ -48,7 +48,7 @@ function Nav() {
           </li>
           <li
             className={`px-4 py-1 rounded-xl text-lg transition-all hover:cursor-pointer ${
-              isActive("/contact") ? "bg-themColor-ligthblue text-themColor-blue" : "hover:bg-themColor-white hover:text-themColor-blue text-themColor-ligthblue"
+              isActive("/join") ? "bg-themColor-ligthblue text-themColor-blue" : "hover:bg-themColor-white hover:text-themColor-blue text-themColor-ligthblue"
             }`}
             onClick={() => handleNavigation("/join")}
           >
@@ -95,7 +95,7 @@ function Nav() {
         </li>
         <li
           className={`list-none w-full py-2 rounded-3xl text-center hover:cursor-pointer ${
-            isActive("/contact") ? "bg-themColor-ligthblue text-themColor-blue" : "hover:bg-themColor-white hover:text-themColor-blue text-themColor-ligthblue"
+            isActive("/join") ? "bg-themColor-ligthblue text-themColor-blue" : "hover:bg-themColor-white hover:text-themColor-blue text-themColor-ligthblue"
           }`}
           onClick={() => handleNavigation("/join")}
         >
