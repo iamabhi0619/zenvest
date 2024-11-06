@@ -12,7 +12,6 @@ function formatPhoneNumber(phoneNumber) {
     throw new Error('Invalid phone number format');
   }
 }
-
 const sendRegMessage = async (data) => {
   try {
     let { number, name } = data;

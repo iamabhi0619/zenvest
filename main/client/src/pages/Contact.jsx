@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FaEnvelope, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 
 function Contact() {
-  // State for form data and submission status
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -10,18 +9,13 @@ function Contact() {
     message: ""
   });
   const [status, setStatus] = useState(null);
-
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Submitting...");
-
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -33,7 +27,7 @@ function Contact() {
 
       if (response.ok) {
         setStatus("Form submitted successfully!");
-        setFormData({ name: "", email: "", subject: "", message: "" }); // Reset form
+        setFormData({ name: "", email: "", subject: "", message: "" });
       } else {
         setStatus("Error submitting the form. Please try again.");
       }
@@ -42,7 +36,6 @@ function Contact() {
       console.error("Submission error:", error);
     }
   };
-
   return (
     <div className="flex items-center justify-center w-full">
       <div className="flex flex-col md:flex-row items-start mx-auto font-suse bg-themColor-ligthblue p-6 rounded-xl">
@@ -59,9 +52,9 @@ function Contact() {
                 <div className="bg-gray-200 h-10 w-10 rounded-full flex items-center justify-center">
                   <FaEnvelope size={20} className="text-themColor-blue" />
                 </div>
-                <a href="mailto:info@example.com" className="text-themColor-blue text-sm ml-4">
+                <a href="mailto:official@zenvest.live" className="text-themColor-blue text-sm ml-4">
                   <small className="block">Mail</small>
-                  <strong>info@example.com</strong>
+                  <strong>official@zenvest.live</strong>
                 </a>
               </li>
             </ul>

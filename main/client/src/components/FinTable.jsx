@@ -52,14 +52,15 @@ function UsersList() {
         <table className="min-w-full bg-white shadow-md rounded-lg">
           <thead className="bg-gray-100">
             <tr>
-              <th className="px-4 text-center">Profile</th>
-              <th className="px-4 text-center">Name</th>
-              <th className="px-4 text-center">Reg Number</th>
-              <th className="px-4 text-center hidden sm:table-cell">
+              <th className="px-4 text-left">Profile</th>
+              <th className="px-4 md:text-left text-center">Name</th>
+              <th className="px-4 text-center md:text-left">Reg Number</th>
+              <th className="px-4 text-center md:text-left hidden sm:table-cell">
                 Email
               </th>{" "}
-              <th className="px-4 text-center">Gender</th>
-              <th className="px-4 text-center">Payment Status</th>
+              <th className="px-4 text-center">Date</th>
+              <th className="px-4 text-center md:text-left">Gender</th>
+              <th className="px-4 text-center md:text-left">Payment Status</th>
             </tr>
           </thead>
           <tbody>
@@ -79,6 +80,7 @@ function UsersList() {
                 <td className="px-4">{user.name}</td>
                 <td className="px-4">{user.regNumber}</td>
                 <td className="px-4 hidden sm:table-cell">{user.email}</td>
+                <td className="px-4">{new Date(user.regDate).toLocaleString()}</td>
                 <td className="px-4">{user.gender.toUpperCase()}</td>
                 <td className="px-4">
                   <span
