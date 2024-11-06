@@ -20,7 +20,7 @@ const ImageData = [
 const Carousels = () => {
   return (
     <>
-      <div className="">
+      <div className="w-full h-full">
         <h1 className="swiper-heading text-center my-2 mb-4 text-themColor-blue text-5xl font-bold font-suse">
           Our Event Memories
         </h1>

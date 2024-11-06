@@ -62,7 +62,7 @@ export const CheckOut = ({ data }) => {
             </div>
             <div className="flex items-center justify-center gap-2">
               <p>WhatsApp Number: </p>
-              <p className="text-center text-xl">{data.whatsapp}</p>
+              <p className="text-center text-xl">{data.number}</p>
             </div>
             <div className="flex items-center flex-col justify-center">
               <p>Email Address: </p>

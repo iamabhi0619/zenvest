@@ -13,7 +13,6 @@ function UserReg() {
     interest: "",
     work: "",
   };
-
   const [formData, setFormData] = useState(form);
   const [apiWork, setApiWork] = useState(false);
 
