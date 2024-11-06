@@ -4,15 +4,15 @@ const instanceId = process.env.WHATSAPP_INSTANCEID1;
 const apiKey = process.env.WHATSAPP_APIKEY1;
 
 function formatPhoneNumber(phoneNumber) {
-  let cleanNumber = phoneNumber.replace(/\D/g, '').trim();
-  if (cleanNumber.startsWith('91') && cleanNumber.length === 12) {
-    return `+${cleanNumber}`;
-  } else if (cleanNumber.length === 10) {
-    return `+91${cleanNumber}`;
+  const cleanNumber = phoneNumber.replace(/\D/g, '').trim();
+  const last10Digits = cleanNumber.slice(-10);
+  if (last10Digits.length === 10) {
+    return `+91${last10Digits}`;
   } else {
     throw new Error('Invalid phone number format');
   }
 }
+
 const sendRegMessage = async (data) => {
   try {
     let { number, name } = data;
