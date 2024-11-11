@@ -16,25 +16,36 @@ function Home() {
       });
   }, []);
   return (
-    <div>
+    <div className="pt-4 overflow-y-scroll h-full">
       <div className="md:hidden items-center justify-center flex mb-2">
-        <button className="text-center bg-themColor-ligthblue font-suse text-2xl tracking-wider px-2 py-0.5 rounded-xl  font-bold" onClick={()=>{navigate('/join')}}>Join Now</button>
+        <button
+          className="text-center bg-themColor-ligthblue font-suse text-2xl tracking-wider px-2 py-0.5 rounded-xl  font-bold"
+          onClick={() => {
+            navigate("/join");
+          }}
+        >
+          Join Now
+        </button>
       </div>
       <div className="scroll-wrapper">
-      <div className="scroll-content">
-        {userData.map((udata) => (
-          <div className="scroll-item" key={udata.id}>
-            <Profile data={udata} />
-          </div>
-        ))}
-        {/* Duplicate content for seamless looping */}
-        {userData.map((udata) => (
-          <div className="scroll-item" key={`duplicate-${udata.id}`}>
-            <Profile data={udata} />
-          </div>
-        ))}
+        <div className="scroll-content">
+          {userData
+            .filter((udata) => udata.post !== "member")
+            .map((udata) => (
+              <div className="scroll-item" key={udata.id}>
+                <Profile data={udata} />
+              </div>
+            ))}
+          {/* Duplicate content for seamless looping */}
+          {userData
+            .filter((udata) => udata.post !== "member")
+            .map((udata) => (
+              <div className="scroll-item" key={`duplicate-${udata.id}`}>
+                <Profile data={udata} />
+              </div>
+            ))}
+        </div>
       </div>
-    </div>
       <div className="w-full h-full">
         <Carousels />
       </div>

@@ -17,14 +17,12 @@ const memberSchema = new Schema({
   },
   image: {
     type: String,
-    required: true
   },
   socialLinks: [{
     type: String
   }],
   email: {
     type: String,
-    required: true,
     unique: true
   },
   password: {

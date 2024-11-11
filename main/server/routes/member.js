@@ -5,7 +5,8 @@ const { authenticateToken } = require("../service/authMiddelware");
 
 routes.get("/", memberController.getAllMember);
 routes.get("/data", authenticateToken, memberController.getDetails);
-routes.post("/singup", memberController.createMember);
+routes.post("/singupcore", memberController.createCoreMember);
+routes.post("/singupmember", memberController.createMember);
 routes.post("/login", memberController.loginMember);
 routes.post("/forget", memberController.forgetPassword);
 routes.post("/reset/:id", memberController.resetPassword);

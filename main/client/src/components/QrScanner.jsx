@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import QrReader from "react-qr-scanner";
-const QrScanner = () => {
-  const delay = 100;
-  const [result, setResult] = useState("No result");
-  const [scanning, setScanning] = useState(false);
-  const [devices, setDevices] = useState([]);
+import AttendanceStatus from "./AttendanceStatus";
+
+const QrScanner = ({ open, setCamera }) => {
+  const [result, setResult] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
   useEffect(() => {
     navigator.mediaDevices
@@ -13,11 +12,8 @@ const QrScanner = () => {
         const videoDevices = deviceInfos.filter(
           (device) => device.kind === "videoinput"
         );
-        setDevices(videoDevices);
-        const backCamera = videoDevices.find(
-          (device) =>
-            device.label.toLowerCase().includes("back") ||
-            device.label.toLowerCase().includes("environment")
+        const backCamera = videoDevices.find((device) =>
+          device.label.toLowerCase().includes("back")
         );
         setSelectedDevice(
           backCamera ? backCamera.deviceId : videoDevices[0]?.deviceId
@@ -25,25 +21,45 @@ const QrScanner = () => {
       })
       .catch((error) => console.error("Error fetching devices:", error));
   }, []);
-  const handleScan = (data) => {
+
+  const handleScan = async (data) => {
     if (data && data.text) {
-      setResult(data.text);
-      setScanning(false);
+      setCamera(false);
+      try {
+        const qrData = JSON.parse(data.text);
+        if (!qrData.regNumber) {
+          setResult({ status: '3', message: "Invalid QR code" });
+          return;
+        }
+        const token = localStorage.getItem("token");
+        const response = await fetch("/api/finathone/attend", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ uniqueId: qrData.regNumber }),
+        });
+        const result = await response.json();
+        setResult(result);
+      } catch (error) {
+        console.error("Error processing QR data:", error);
+        setResult({ status: 2, message: "Invalid QR code" });
+      }
     }
   };
+
   const handleError = (err) => {
-    console.error(err);
+    console.error("Error scanning QR code:", err);
   };
-  const previewStyle = {
-    height: 300,
-    width: 300,
-  };
+
+  const previewStyle = { height: 300, width: 300 };
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="relative flex items-center justify-center mb-4 w-80 h-80">
-        {scanning && selectedDevice ? (
+    <div className="flex flex-col items-center justify-center">
+      <div className="relative flex items-center justify-center mb-4 w-80 h-80 rounded-2xl">
+        {open ? (
           <QrReader
-            delay={delay}
+            delay={100}
             style={previewStyle}
             onError={handleError}
             onScan={handleScan}
@@ -56,39 +72,18 @@ const QrScanner = () => {
             }}
             className="border-4 border-blue-500 rounded-md shadow-lg"
           />
+        ) : result ? (
+          <AttendanceStatus data={result} />
         ) : (
-          <div className="flex items-center justify-center border-4 border-dashed border-gray-400 rounded-md p-5 w-full flex-col">
-            <div className="w-full max-w-xs mb-4">
-              <select
-                onChange={(e) => setSelectedDevice(e.target.value)}
-                value={selectedDevice}
-                className="max-w-full p-2 border border-gray-300 rounded-md bg-white text-gray-700"
-              >
-                {devices.map((device, index) => (
-                  <option key={device.deviceId} value={device.deviceId}>
-                    Camera {index + 1} - {device.label || `Device ${index + 1}`}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <button
-              onClick={() => setScanning(!scanning)}
-              className={`px-4 py-2 mb-4 rounded-md font-semibold text-white ${
-                scanning ? "bg-red-500" : "bg-blue-500"
-              }`}
-            >
-              {scanning ? "Stop Scanning" : "Start Scanning"}
-            </button>
-          </div>
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/zenvest-8f417.appspot.com/o/Designer%20(7).png?alt=media&token=1902f931-1d5f-4319-8a94-1348094d756f"
+            alt="Fallback"
+            className="rounded-2xl"
+          />
         )}
-      </div>
-      <div className="w-full max-w-xs p-4 bg-white border border-gray-300 rounded-md shadow-md">
-        <p className="text-gray-700 text-center">Scan Result:</p>
-        <p className="text-lg font-semibold text-center text-gray-900 mt-2 break-words">
-          {result}
-        </p>
       </div>
     </div>
   );
 };
+
 export default QrScanner;

@@ -45,7 +45,7 @@ function UsersList() {
     setSelectedUser(null);
   };
   return (
-    <div className="container mx-auto px-5">
+    <div className="container mx-auto px-5 h-full overflow-y-scroll pb-3">
       <h2 className="text-3xl font-semibold text-center font-suse mb-1">FIN-A-THON</h2>
       <p className="text-center text-xl font-suse bg-slate-100  text-themColor-blue px-3 rounded-t-md font-bold"> Total:- {users.length} </p>
       <div className="overflow-x-auto">

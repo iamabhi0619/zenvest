@@ -31,12 +31,16 @@ function ServiceTab({ data }) {
               <button className="bg-themColor-blue text-white px-4 py-2 rounded-lg text-sm font-medium">
                 Member List
               </button>
-              <button className="bg-themColor-blue text-white px-4 py-2 rounded-lg text-sm font-medium">
+              <button className="bg-themColor-blue text-white px-4 py-2 rounded-lg text-sm font-medium" onClick={() => {
+                  navigate("/attendance");
+                }}>
                 SCAN QR
               </button>
             </>
           ) : (
-            <button className="bg-themColor-blue text-white px-4 py-2 rounded-lg text-sm font-medium">
+            <button className="bg-themColor-blue text-white px-4 py-2 rounded-lg text-sm font-medium" onClick={() => {
+              navigate("/attendance");
+            }}>
               SCAN QR
             </button>
           )}

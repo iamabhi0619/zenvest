@@ -13,7 +13,8 @@ module.exports = {
       },
       fontFamily:{
         suse: ['"SUSE"','sans-serif'],
-        Poppins: ['"Poppins"','sans-serif']
+        Poppins: ['"Poppins"','sans-serif'],
+        outline: ['"Bungee Outline"', "serif"],
       },
       aspectRatio: {
         '16/9': '16 / 9',

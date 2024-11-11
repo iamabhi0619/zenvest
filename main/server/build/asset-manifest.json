@@ -1,14 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.048d9f6b.css",
-    "main.js": "/static/js/main.e2e0017c.js",
+    "main.css": "/static/css/main.9658cd23.css",
+    "main.js": "/static/js/main.280c0aca.js",
     "static/media/Logo.png": "/static/media/Logo.552f855fecab3b1298b2.png",
+    "static/media/green-tick-animation.lottie": "/static/media/green-tick-animation.9841ab441622587f2faa.lottie",
+    "static/media/red-cross-animation.lottie": "/static/media/red-cross-animation.dff2cc9cccd62594f905.lottie",
+    "static/media/yellow-exc-animation.lottie": "/static/media/yellow-exc-animation.09e1d9451df7ea9ed82b.lottie",
     "index.html": "/index.html",
-    "main.048d9f6b.css.map": "/static/css/main.048d9f6b.css.map",
-    "main.e2e0017c.js.map": "/static/js/main.e2e0017c.js.map"
+    "main.9658cd23.css.map": "/static/css/main.9658cd23.css.map",
+    "main.280c0aca.js.map": "/static/js/main.280c0aca.js.map"
   },
   "entrypoints": [
-    "static/css/main.048d9f6b.css",
-    "static/js/main.e2e0017c.js"
+    "static/css/main.9658cd23.css",
+    "static/js/main.280c0aca.js"
   ]
 }

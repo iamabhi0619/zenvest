@@ -4,7 +4,7 @@ const { generateToken } = require("../service/jwttoken.js");
 // const { generatePassword } = require("../service/passwordReset.js");
 // const { sendEmail } = require("../service/emailpassword.js");
 
-exports.createMember = async (req, res) => {
+exports.createCoreMember = async (req, res) => {
   try {
     const { id, name, image, post, socialLinks, email, password } = req.body;
     if (!id || !name || !email || !password || !image) {
@@ -18,6 +18,26 @@ exports.createMember = async (req, res) => {
       post,
       socialLinks,
       email,
+      password: hashedPassword,
+    });
+    const savedMember = await createdMember.save();
+    res.status(201).json({ status: "OK", user: savedMember });
+  } catch (error) {
+    console.error("Error creating member:", error);
+    res.status(500).json({ status: "ERROR", message: "An error occurred while creating the member" });
+  }
+};
+exports.createMember = async (req, res) => {
+  try {
+    const { id, name, post, password } = req.body;
+    if (!id || !name || !post || !password) {
+      return res.status(400).json({ status: "ERROR", message: "Missing required fields" });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const createdMember = new Member({
+      id,
+      name,
+      post,
       password: hashedPassword,
     });
     const savedMember = await createdMember.save();
