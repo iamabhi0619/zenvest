@@ -100,7 +100,6 @@ function UsersList() {
           </tbody>
         </table>
       </div>
-
       {/* Pagination Controls */}
       <div className="mt-3 flex justify-between items-center">
         <button
