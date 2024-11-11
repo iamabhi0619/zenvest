@@ -30,7 +30,7 @@ exports.markAttendance = async (req, res) => {
     const isAttendanceMarked = participant.attendance.some(
       (attendanceRecord) => {
         return (
-          (attendanceRecord.day === "13-NOV" && day.getDate() === 10) ||
+          (attendanceRecord.day === "11-NOV" && day.getDate() === 11) ||
           (attendanceRecord.day === "14-NOV" && day.getDate() === 14)
         );
       }
@@ -47,8 +47,8 @@ exports.markAttendance = async (req, res) => {
     }
 
     let eventDay;
-    if (day.getDate() === 10) {
-      eventDay = "13-NOV";
+    if (day.getDate() === 11) {
+      eventDay = "11-NOV";
     } else if (day.getDate() === 14) {
       eventDay = "14-NOV";
     } else {

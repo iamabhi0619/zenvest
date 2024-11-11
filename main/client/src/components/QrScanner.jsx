@@ -5,19 +5,22 @@ import AttendanceStatus from "./AttendanceStatus";
 const QrScanner = ({ open, setCamera }) => {
   const [result, setResult] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
+  const [videoDevices, setVideoDevices] = useState([]);
+
   useEffect(() => {
     navigator.mediaDevices
       .enumerateDevices()
       .then((deviceInfos) => {
-        const videoDevices = deviceInfos.filter(
+        const videoInputs = deviceInfos.filter(
           (device) => device.kind === "videoinput"
         );
-        const backCamera = videoDevices.find((device) =>
+        setVideoDevices(videoInputs);
+
+        // Automatically select the back camera if available
+        const backCamera = videoInputs.find((device) =>
           device.label.toLowerCase().includes("back")
         );
-        setSelectedDevice(
-          backCamera ? backCamera.deviceId : videoDevices[0]?.deviceId
-        );
+        setSelectedDevice(backCamera ? backCamera.deviceId : videoInputs[0]?.deviceId);
       })
       .catch((error) => console.error("Error fetching devices:", error));
   }, []);
@@ -28,7 +31,7 @@ const QrScanner = ({ open, setCamera }) => {
       try {
         const qrData = JSON.parse(data.text);
         if (!qrData.regNumber) {
-          setResult({ status: '3', message: "Invalid QR code" });
+          setResult({ status: "3", message: "Invalid QR code" });
           return;
         }
         const token = localStorage.getItem("token");
@@ -53,9 +56,23 @@ const QrScanner = ({ open, setCamera }) => {
     console.error("Error scanning QR code:", err);
   };
 
+  const handleDeviceChange = (event) => {
+    setSelectedDevice(event.target.value);
+  };
+
   const previewStyle = { height: 300, width: 300 };
+
   return (
     <div className="flex flex-col items-center justify-center">
+      {videoDevices.length > 1 && (
+        <select onChange={handleDeviceChange} value={selectedDevice} className="mt-4 p-2 border rounded">
+          {videoDevices.map((device) => (
+            <option key={device.deviceId} value={device.deviceId}>
+              {device.label || `Camera ${device.deviceId}`}
+            </option>
+          ))}
+        </select>
+      )}
       <div className="relative flex items-center justify-center mb-4 w-80 h-80 rounded-2xl">
         {open ? (
           <QrReader
@@ -65,9 +82,7 @@ const QrScanner = ({ open, setCamera }) => {
             onScan={handleScan}
             constraints={{
               video: {
-                deviceId: selectedDevice
-                  ? { exact: selectedDevice }
-                  : undefined,
+                deviceId: selectedDevice ? { exact: selectedDevice } : undefined,
               },
             }}
             className="border-4 border-blue-500 rounded-md shadow-lg"
@@ -82,6 +97,7 @@ const QrScanner = ({ open, setCamera }) => {
           />
         )}
       </div>
+      
     </div>
   );
 };

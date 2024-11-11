@@ -19,6 +19,7 @@ function EventRegistrationForm({ submit }) {
     gender: "",
     dp: "",
   });
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(false); // Control registration availability
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,10 +44,28 @@ function EventRegistrationForm({ submit }) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="relative flex flex-col items-center justify-center h-full">
+      {/* Decorative Overlay for Closed Registration */}
+      {!isRegistrationOpen && (
+        <div className="absolute inset-0 flex items-center justify-center bg-red-600 bg-opacity-35 rounded-3xl z-10">
+          <div
+            className="transform rotate-12 bg-white border-4 border-dashed border-red-600 px-6 py-3 text-white font-bold text-xl text-center shadow-lg"
+            style={{
+              maxWidth: "80%", // Prevent overflow by limiting width
+              whiteSpace: "normal", // Allow text to wrap to the next line
+              transform: "rotate(-10deg)",
+              borderRadius: "12px",
+            }}
+          >
+            <img src="https://firebasestorage.googleapis.com/v0/b/zenvest-8f417.appspot.com/o/asset%2Fclose.png?alt=media&token=179174f1-b9a8-4206-b653-0f20ccc33b65" alt="" />
+            <p className="text-xl text-red-600">🚫 Registrations Closed 🚫</p>
+          </div>
+        </div>
+      )}
       <form
         onSubmit={handleSubmit}
         className="flex flex-col justify-between bg-white w-full max-w-lg md:max-w-md p-6 rounded-3xl shadow-lg font-normal h-full"
+        style={{ pointerEvents: isRegistrationOpen ? "auto" : "none" }} // Disable form interaction if registrations are closed
       >
         <h1 className="text-2xl font-semibold text-center text-blue mb-6 w-full">
           Registration Form
@@ -65,6 +84,7 @@ function EventRegistrationForm({ submit }) {
             }`}
             required
             aria-label="Name"
+            disabled={!isRegistrationOpen}
           />
         </div>
 
@@ -82,6 +102,7 @@ function EventRegistrationForm({ submit }) {
             }`}
             required
             aria-label="Registration Number"
+            disabled={!isRegistrationOpen}
           />
         </div>
 
@@ -99,6 +120,7 @@ function EventRegistrationForm({ submit }) {
             }`}
             required
             aria-label="Email"
+            disabled={!isRegistrationOpen}
           />
         </div>
 
@@ -116,6 +138,7 @@ function EventRegistrationForm({ submit }) {
             }`}
             required
             aria-label="WhatsApp Number"
+            disabled={!isRegistrationOpen}
           />
         </div>
 
@@ -131,6 +154,7 @@ function EventRegistrationForm({ submit }) {
               checked={formData.gender === "male"}
               onChange={handleChange}
               aria-label="Male"
+              disabled={!isRegistrationOpen}
             />
             <label
               htmlFor="male"
@@ -150,6 +174,7 @@ function EventRegistrationForm({ submit }) {
               checked={formData.gender === "female"}
               onChange={handleChange}
               aria-label="Female"
+              disabled={!isRegistrationOpen}
             />
             <label
               htmlFor="female"
@@ -169,6 +194,7 @@ function EventRegistrationForm({ submit }) {
               checked={formData.gender === "other"}
               onChange={handleChange}
               aria-label="Other"
+              disabled={!isRegistrationOpen}
             />
             <label
               htmlFor="other"
@@ -184,6 +210,7 @@ function EventRegistrationForm({ submit }) {
         <button
           type="submit"
           className="w-full py-3 mt-4 bg-[#3e688c] hover:bg-[#5ba66e] text-white font-semibold rounded-lg shadow-md transition duration-200"
+          disabled={!isRegistrationOpen}
         >
           Next
         </button>

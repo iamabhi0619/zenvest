@@ -71,7 +71,7 @@ const AttendancePortal = ({ setNavBar }) => {
             <div className="h-80 w-80">
               <QrScanner open={scan} setCamera={camera} />
             </div>
-            <div className="mt-9">
+            <div className="mt-20">
               <button
                 onClick={() => {
                   setScan(!scan);

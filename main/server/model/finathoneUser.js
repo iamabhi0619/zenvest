@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   regNumber: { type: String, required: true, unique: true },
   regDate: { type: Date, default: Date.now },
   attendance: [{
-    day: { type: String, enum: ['day1', 'day2'], required: true },
+    day: { type: String, enum: ['13-NOV', '14-NOV'], required: true },
     date: { type: Date, default: Date.now },
     scannedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Member', required: true } 
   }],
