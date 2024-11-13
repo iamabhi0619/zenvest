@@ -38,6 +38,7 @@ exports.createMember = async (req, res) => {
       id,
       name,
       post,
+      email: id,
       password: hashedPassword,
     });
     const savedMember = await createdMember.save();
