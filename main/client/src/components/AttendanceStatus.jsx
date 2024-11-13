@@ -6,7 +6,7 @@ import yellowExcAnimation from "../assets/yellow-exc-animation.lottie";
 function AttendanceStatus({ data }) {
   const status = data.status;
   return (
-    <div className="bg-themColor-blue h-full w-full flex flex-col items-center my-auto justify-center rounded-2xl">
+    <div className="h-80 w-80 flex flex-col items-center my-auto justify-center rounded-2xl">
       <p></p>
       <DotLottieReact
         src={
@@ -20,7 +20,7 @@ function AttendanceStatus({ data }) {
         autoplay
         style={{ width: 180, height: 180 }}
       />
-      <p className="text-2xl font-suse text-white font-semibold tracking-wider w-44">{data.message}</p>
+      <p className="text-2xl font-suse text-white font-semibold tracking-wider ">{data.message}</p>
     </div>
   );
 }

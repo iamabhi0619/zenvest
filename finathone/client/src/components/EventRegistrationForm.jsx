@@ -19,7 +19,7 @@ function EventRegistrationForm({ submit }) {
     gender: "",
     dp: "",
   });
-  const [isRegistrationOpen, setIsRegistrationOpen] = useState(false); // Control registration availability
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(true); // Control registration availability
 
   const handleChange = (e) => {
     const { name, value } = e.target;
