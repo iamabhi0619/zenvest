@@ -83,8 +83,6 @@ exports.markAttendance = async (req, res) => {
 };
 
 exports.getSlots = (req, res) => {
-  // Define the slots for each event day
-
   const slots = {
     "2024-11-13": [
       { slot: "9-11", start: "09:00", end: "11:00" },
@@ -98,42 +96,39 @@ exports.getSlots = (req, res) => {
     ],
   };
 
+  // Convert server time (Oregon time) to IST
   const currentDate = new Date();
-  const today = currentDate.toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+  const offsetIST = 5.5 * 60 * 60 * 1000; // IST is UTC + 5:30
+  const currentDateIST = new Date(currentDate.getTime() + offsetIST);
 
-  // If the current date is part of the event dates
+  const today = currentDateIST.toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format based on IST
+  const currentTimeIST = currentDateIST.getHours() * 60 + currentDateIST.getMinutes(); // Current time in minutes in IST
+
   if (slots[today]) {
-    const availableSlots = slots[today]; // Get the available slots for today
-    const currentTime = currentDate.getHours() * 60 + currentDate.getMinutes(); // Convert current time to minutes
+    const availableSlots = slots[today];
 
-    // Filter available slots based on the current time
+    // Filter available slots based on IST current time
     const filteredSlots = availableSlots.filter((slot) => {
-      // Convert slot start and end times to minutes
       const slotStartTime = slot.start.split(":").map(Number);
       const slotEndTime = slot.end.split(":").map(Number);
 
       const slotStartInMinutes = slotStartTime[0] * 60 + slotStartTime[1];
       const slotEndInMinutes = slotEndTime[0] * 60 + slotEndTime[1];
 
-      // Only show the slot if the current time is between:
-      // - 30 minutes before the slot's start time and
-      // - the end time of the slot
       const thirtyMinutesBeforeSlotStart = slotStartInMinutes - 30;
 
       return (
-        currentTime >= thirtyMinutesBeforeSlotStart &&
-        currentTime < slotEndInMinutes
+        currentTimeIST >= thirtyMinutesBeforeSlotStart &&
+        currentTimeIST < slotEndInMinutes
       );
     });
 
-    // If no slots are available, return an empty list or appropriate response
     if (filteredSlots.length === 0) {
       return res.status(200).json({ message: "No available slots" });
     }
 
-    return res.status(200).json(filteredSlots); // Return filtered available slots
+    return res.status(200).json(filteredSlots);
   }
 
-  // If no slots for the current date, return 404
   return res.status(404).json({ message: "No event on this date" });
 };
