@@ -98,6 +98,8 @@ exports.getSlots = (req, res) => {
 
   // Convert server time (Oregon time) to IST
   const currentDate = new Date();
+  console.log(currentDate.toLocaleString());
+  
   const offsetIST = 5.5 * 60 * 60 * 1000; // IST is UTC + 5:30
   const currentDateIST = new Date(currentDate.getTime() + offsetIST);
   console.log(currentDateIST.toLocaleString());
