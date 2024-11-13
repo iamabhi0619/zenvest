@@ -100,6 +100,8 @@ exports.getSlots = (req, res) => {
   const currentDate = new Date();
   const offsetIST = 5.5 * 60 * 60 * 1000; // IST is UTC + 5:30
   const currentDateIST = new Date(currentDate.getTime() + offsetIST);
+  console.log(currentDateIST.toLocaleString());
+  
 
   const today = currentDateIST.toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format based on IST
   const currentTimeIST = currentDateIST.getHours() * 60 + currentDateIST.getMinutes(); // Current time in minutes in IST
