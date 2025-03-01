@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const testController = require("./controller/tesing");
 const paymentRoute = require("./routes/paymentRoutes");
+const finathoneRoute = require("./routes/finathone");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 });
 app.get("/qr/:data", testController.QRCode);
 app.use("/api/payment", paymentRoute);
+app.use("/api/finathone", finathoneRoute)
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

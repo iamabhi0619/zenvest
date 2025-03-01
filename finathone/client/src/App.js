@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { CheckOut } from "./components/CheckOut";
-import EventRegistrationForm from "./components/EventRegistrationForm";
+import Cirtificate from "./components/Cirtificate";
 
 function App() {
   const [data, setData] = useState({});
   const setdata = (e) => {
     setData(e);
+    console.log(e);
+    
   };
 
   return (
@@ -17,9 +19,9 @@ function App() {
       </header>
       <main className="w-full flex items-center justify-center h-[80vh] overflow-auto">
         {Object.keys(data).length === 0 ? (
-          <EventRegistrationForm submit={setdata} />
+          <Cirtificate submit={setdata} />
         ) : (
-          <CheckOut data={data} />
+          <CheckOut allData={data} />
         )}
       </main>
       <footer className="w-full p-4 text-white text-center text-sm h-[10vh]">

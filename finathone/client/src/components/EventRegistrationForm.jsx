@@ -19,13 +19,11 @@ function EventRegistrationForm({ submit }) {
     gender: "",
     dp: "",
   });
-  const [isRegistrationOpen, setIsRegistrationOpen] = useState(true); // Control registration availability
-
+  const isRegistrationOpen = false;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
@@ -42,7 +40,6 @@ function EventRegistrationForm({ submit }) {
     const updatedFormData = { ...formData, dp: avatarURL };
     submit(updatedFormData);
   };
-
   return (
     <div className="relative flex flex-col items-center justify-center h-full">
       {/* Decorative Overlay for Closed Registration */}
