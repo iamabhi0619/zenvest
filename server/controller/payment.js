@@ -41,7 +41,7 @@ exports.paymentWebhook = async (req, res, next) => {
             user.payment.paymentId = paymentId;
             try {
                 await user.save();
-                errorTelegram("high", `Payment success and user updated successfully.\nTotal:- ${Workshop.countDocuments}`);
+                alertTelegram("high", `Payment success and user updated successfully.\nTotal:- ${Workshop.countDocuments}`);
             } catch (error) {
                 console.error("Database error while updating payment status:", error);
                 return res.status(500).json({
