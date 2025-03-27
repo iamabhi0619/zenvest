@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { initializeVenom, sendWhatsAppMessage } = require("./service/venomService");
 const errorHandler = require("./middlewares/errorHandler");
 const userRoutes = require("./routes/user");
 const connectDB = require("./utils/DbConnection");
@@ -14,8 +13,6 @@ app.use(cors());
 
 connectDB();
 
-// Initialize Venom Bot on startup
-// initializeVenom();
 
 app.use("/api/event", userRoutes);
 
