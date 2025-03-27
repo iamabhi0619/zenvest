@@ -57,9 +57,7 @@ export function useRegistrationForm() {
                 description: "Payment for the event",
                 image: "https://res.cloudinary.com/dd4m8j8um/image/upload/v1742995648/assets/p0fsklxltgmjxj27vvcl.jpg",
                 order_id: data.user.payment.orderId,
-                handler: async function (response) {
-                    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/event/verify`, response);
-                    console.log(res);
+                handler: function (response) {
                     console.log("Payment successful:", response);
                     alert("payment Done");
                 },

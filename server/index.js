@@ -4,6 +4,7 @@ const cors = require("cors");
 const errorHandler = require("./middlewares/errorHandler");
 const userRoutes = require("./routes/user");
 const connectDB = require("./utils/DbConnection");
+const alertTelegram = require("./utils/telegram");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,9 +14,7 @@ app.use(cors());
 
 connectDB();
 
-
 app.use("/api/event", userRoutes);
-
 
 app.use(errorHandler)
 app.listen(PORT, () => {
