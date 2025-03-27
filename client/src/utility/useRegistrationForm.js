@@ -47,7 +47,7 @@ export function useRegistrationForm() {
         };
 
         try {
-            const response = await axios.post("http://localhost:5000/api/event/register", paylode);
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/event/register`, paylode);
             const { data } = response;
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY,
@@ -57,8 +57,8 @@ export function useRegistrationForm() {
                 description: "Payment for the event",
                 image: "https://res.cloudinary.com/dd4m8j8um/image/upload/v1742995648/assets/p0fsklxltgmjxj27vvcl.jpg",
                 order_id: data.user.payment.orderId,
-                handler: function (response) {
-                    const res = axios.post("http://localhost:5000/api/event/verify", response);
+                handler: async function (response) {
+                    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/event/verify`, response);
                     console.log(res);
                     console.log("Payment successful:", response);
                     alert("payment Done");
