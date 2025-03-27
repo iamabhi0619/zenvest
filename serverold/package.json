@@ -1,0 +1,21 @@
+{
+  "name": "finathone",
+  "version": "1.0.0",
+  "description": "Special server for finathone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Abhishek Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "@loskir/styled-qr-code-node": "^1.5.2",
+    "axios": "^1.8.4",
+    "canvas": "^3.1.0",
+    "express": "^4.21.2",
+    "mongoose": "^8.13.0",
+    "razorpay": "^2.9.6"
+  }
+}
