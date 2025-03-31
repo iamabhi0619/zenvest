@@ -47,7 +47,7 @@ const handlePaymentCaptured = async (payload) => {
             await sendEmailWithAttachment(user.email, user.name, user.regNumber, ticketUrl);
             await talert.mid(user.email, user.name, user.regNumber, ticketUrl);
         } catch (error) {
-            talert.high(`Error sending email or generating ticket: ${error.message}`);
+            talert.high(`Error sending email or generating ticket: ${ticketUrl} ${user.number}`);
         }
         talert.mid(`Payment success and user updated.\nTotal Completed Payments: ${totalCompletedPayments}`);
     } catch (error) {
