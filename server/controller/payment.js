@@ -47,11 +47,12 @@ const handlePaymentCaptured = async (payload) => {
             await sendEmailWithAttachment(user.email, user.name, user.regNumber, ticketUrl);
             await talert.mid(user.email, user.name, user.regNumber, ticketUrl);
         } catch (error) {
+            console.log(error);
             talert.high(`Error sending email or generating ticket: ${ticketUrl} ${user.number}`);
         }
         talert.mid(`Payment success and user updated.\nTotal Completed Payments: ${totalCompletedPayments}`);
     } catch (error) {
-        talert.high(`Error handling payment capture: ${error.message}`);
+        talert.high(`Error handling payment capture:`);
     }
 };
 
@@ -64,7 +65,7 @@ const handlePaymentFailed = async (payload) => {
     const user = await updateUserPaymentStatus(orderId, paymentId, "Failed");
     if (user) {
         talert.high("Payment failed and user updated successfully.");
-        talert.low(`Payment failed for user. Contact details:\nName: ${user.name}\nEmail: ${user.email}\nNumber: ${user.number}\nReg Number: ${user.regNumber}\nGender: ${user.gender}\nFailure Reason: ${failureReason}`);
+        talert.mid(`Payment failed for user. Contact details:\nName: ${user.name}\nEmail: ${user.email}\nNumber: ${user.number}\nReg Number: ${user.regNumber}\nGender: ${user.gender}\nFailure Reason: ${failureReason}`);
     } else {
         talert.high(`Payment failed for order ID: ${orderId}. Failure Reason: ${failureReason}`);
     }
@@ -88,7 +89,7 @@ exports.paymentWebhook = async (req, res) => {
         }
         res.status(200).json({ success: true, message: "Webhook processed successfully." });
     } catch (error) {
-        talert.high("Error processing webhook: " + error);
+        talert.high("Error processing webhook");
         res.status(500).json({ success: false, message: "Internal server error while processing webhook." });
     }
 };
