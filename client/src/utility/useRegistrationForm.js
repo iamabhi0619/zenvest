@@ -75,6 +75,8 @@ export function useRegistrationForm() {
                     color: "#005246",
                 },
             };
+            console.log(options);
+            
             const razorpay = new window.Razorpay(options);
             razorpay.open();
         } catch (err) {
