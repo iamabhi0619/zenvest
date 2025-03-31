@@ -21,7 +21,7 @@ export default function TradeARythmLanding() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          Trade-A-Rithm
+          Trade-A-Rythm
         </motion.h1>
         <motion.p
           className="text-white text-3xl md:text-4xl font-heading mt-2 tracking-wider drop-shadow-md"

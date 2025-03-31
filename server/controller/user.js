@@ -1,7 +1,6 @@
 const Razorpay = require("razorpay");
 const { Workshop } = require("../model/tradeARithm");
 const ApiError = require("../utils/ApiError");
-
 const razorpay = new Razorpay({
     key_id: process.env.RAZER_ID,
     key_secret: process.env.RAZER_SECRET,
@@ -30,7 +29,6 @@ exports.createUser = async (req, res, next) => {
                 `Please provide ${missingFields.map(field => requiredFields[field]).join(", ")} to proceed.`
             ));
         }
-
         // Validate phone number format (assuming a simple 10-digit validation)
         if (!/^\d{10}$/.test(number)) {
             throw new ApiError(400, "Invalid phone number format.", "validation", "invalid phone number");

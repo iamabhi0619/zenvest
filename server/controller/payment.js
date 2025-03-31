@@ -1,6 +1,8 @@
 const crypto = require("crypto");
 const { Workshop } = require("../model/tradeARithm");
-const alertTelegram = require("../utils/telegram");
+const talert = require("../utils/telegram");
+const { generateTicket } = require("../utils/Ticket");
+const { sendEmailWithAttachment } = require("../utils/emailService");
 
 const verifyWebhookSignature = (req) => {
     const razorpaySignature = req.headers["x-razorpay-signature"];
@@ -17,7 +19,7 @@ const updateUserPaymentStatus = async (orderId, paymentId, status) => {
     try {
         const user = await Workshop.findOne({ "payment.orderId": orderId });
         if (!user) {
-            alertTelegram("high", `User not found for the given order ID: ${orderId}`);
+            talert.high(`User not found for the given order ID: ${orderId}`);
             return null;
         }
         user.payment.status = status;
@@ -25,28 +27,43 @@ const updateUserPaymentStatus = async (orderId, paymentId, status) => {
         await user.save();
         return user;
     } catch (error) {
-        console.error("Database error while updating payment status:", error);
+        talert.high("Database error while updating payment status." + error);
         return null;
     }
 };
 
 const handlePaymentCaptured = async (payload) => {
-    const paymentId = payload.payment.entity.id;
-    const orderId = payload.payment.entity.order_id;
-    const user = await updateUserPaymentStatus(orderId, paymentId, "Completed");
-    if (user) {
+    try {
+        const paymentId = payload.payment.entity.id;
+        const orderId = payload.payment.entity.order_id;
+        const user = await updateUserPaymentStatus(orderId, paymentId, "Completed");
+
+        if (!user) return;
+
         const totalCompletedPayments = await Workshop.countDocuments({ "payment.status": "Completed" });
-        alertTelegram("high", `Payment success and user updated successfully.\nTotal Completed Payments: ${totalCompletedPayments}`);
+
+        try {
+            const ticketUrl = await generateTicket(user);
+            await sendEmailWithAttachment(user.email, user.name, user.regNumber, ticketUrl);
+            await talert.mid(user.email, user.name, user.regNumber, ticketUrl);
+        } catch (error) {
+            talert.high(`Error sending email or generating ticket: ${error.message}`);
+        }
+
+        talert.mid(`Payment success and user updated.\nTotal Completed Payments: ${totalCompletedPayments}`);
+    } catch (error) {
+        talert.high(`Error handling payment capture: ${error.message}`);
     }
 };
+
 
 const handlePaymentFailed = async (payload) => {
     const paymentId = payload.payment.entity.id;
     const orderId = payload.payment.entity.order_id;
     const user = await updateUserPaymentStatus(orderId, paymentId, "Failed");
     if (user) {
-        alertTelegram("high", "Payment failed and user updated successfully.");
-        alertTelegram("low", `Payment failed for user. Contact details:\nName: ${user.name}\nEmail: ${user.email}\nNumber: ${user.number}\nReg Number: ${user.regNumber}\nGender: ${user.gender}`);
+        talert.high("Payment failed and user updated successfully.");
+        talert.low(`Payment failed for user. Contact details:\nName: ${user.name}\nEmail: ${user.email}\nNumber: ${user.number}\nReg Number: ${user.regNumber}\nGender: ${user.gender}`)
     }
 };
 
@@ -68,7 +85,7 @@ exports.paymentWebhook = async (req, res) => {
         }
         res.status(200).json({ success: true, message: "Webhook processed successfully." });
     } catch (error) {
-        console.error("Error processing webhook:", error);
+        talert.high("Error processing webhook: " + error);
         res.status(500).json({ success: false, message: "Internal server error while processing webhook." });
     }
 };

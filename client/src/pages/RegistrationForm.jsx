@@ -18,7 +18,7 @@ export default function RegistrationForm() {
         className="relative z-10 bg-slate-950/20 backdrop-blur-lg rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/20 w-full"
       >
         <h2 className="mb-6 sm:mb-8 font-heading text-blueWhite text-5xl tracking-wider">
-          Trade-A-Rithm
+          Trade-A-Rythm
         </h2>
 
         {error && (
@@ -46,6 +46,19 @@ export default function RegistrationForm() {
               required
               className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-white outline-1"
               placeholder="Enter your full name"
+            />
+          </div>
+          {/* Registration Number */}
+          <div className="space-y-0.5">
+            <label className="block text-sm font-medium text-gray-200">Registration Number</label>
+            <input
+              type="text"
+              name="registrationNumber"
+              value={formData.registrationNumber}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-white outline-1"
+              placeholder="Enter your registration number"
             />
           </div>
 
@@ -117,15 +130,35 @@ export default function RegistrationForm() {
           {/* Course */}
           <div className="space-y-0.5">
             <label className="block text-sm font-medium text-gray-200">Current Course</label>
-            <input
-              type="text"
+            <select
               name="course"
               value={formData.course}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-white outline-1"
-              placeholder="Enter your current course"
-            />
+              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none"
+            >
+              <option value="" disabled className="bg-gray-800">
+                Select your course
+              </option>
+              <option value="Computer Science" className="bg-gray-800">
+                Computer Science
+              </option>
+              <option value="Mechanical Engineering" className="bg-gray-800">
+                Mechanical Engineering
+              </option>
+              <option value="Electrical Engineering" className="bg-gray-800">
+                Electrical Engineering
+              </option>
+              <option value="Civil Engineering" className="bg-gray-800">
+                Civil Engineering
+              </option>
+              <option value="Business Administration" className="bg-gray-800">
+                Business Administration
+              </option>
+              <option value="Other" className="bg-gray-800">
+                Other
+              </option>
+            </select>
           </div>
 
           {/* Year */}

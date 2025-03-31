@@ -30,5 +30,10 @@ const alertTelegram = (category, message, imageUrl = null) => {
     });
 };
 
-// Export function for use in other files
-module.exports = alertTelegram;
+// Proxy to allow terror.mid, terror.high usage
+const talert = new Proxy({}, {
+    get: (_, category) => (message, imageUrl = null) => alertTelegram(category, message, imageUrl)
+});
+
+// Exporting terror object
+module.exports = talert;
