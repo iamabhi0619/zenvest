@@ -52,6 +52,8 @@ export function useRegistrationForm() {
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/event/register`, payload);
             const { data } = response;
+            console.log(data);
+            
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY,
                 amount: data.user.payment.amount,

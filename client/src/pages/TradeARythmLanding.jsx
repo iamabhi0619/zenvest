@@ -64,6 +64,7 @@ export default function TradeARythmLanding() {
         >
           Register Now
         </Link>
+        <Link to="/t&c" className="text-white font-semibold mt-4 text-lg">Terms & Conditions</Link>
       </div>
     </div>
   );

@@ -49,7 +49,6 @@ const handlePaymentCaptured = async (payload) => {
         } catch (error) {
             talert.high(`Error sending email or generating ticket: ${error.message}`);
         }
-
         talert.mid(`Payment success and user updated.\nTotal Completed Payments: ${totalCompletedPayments}`);
     } catch (error) {
         talert.high(`Error handling payment capture: ${error.message}`);
