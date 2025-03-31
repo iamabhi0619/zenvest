@@ -59,10 +59,14 @@ const handlePaymentCaptured = async (payload) => {
 const handlePaymentFailed = async (payload) => {
     const paymentId = payload.payment.entity.id;
     const orderId = payload.payment.entity.order_id;
+    const failureReason = payload.payment.entity.error_description || "Unknown reason"; // Extract failure reason
+
     const user = await updateUserPaymentStatus(orderId, paymentId, "Failed");
     if (user) {
         talert.high("Payment failed and user updated successfully.");
-        talert.low(`Payment failed for user. Contact details:\nName: ${user.name}\nEmail: ${user.email}\nNumber: ${user.number}\nReg Number: ${user.regNumber}\nGender: ${user.gender}`)
+        talert.low(`Payment failed for user. Contact details:\nName: ${user.name}\nEmail: ${user.email}\nNumber: ${user.number}\nReg Number: ${user.regNumber}\nGender: ${user.gender}\nFailure Reason: ${failureReason}`);
+    } else {
+        talert.high(`Payment failed for order ID: ${orderId}. Failure Reason: ${failureReason}`);
     }
 };
 
