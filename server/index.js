@@ -5,6 +5,7 @@ const errorHandler = require("./middlewares/errorHandler");
 const userRoutes = require("./routes/user");
 const utilityRoutes = require("./routes/utility");
 const connectDB = require("./utils/DbConnection");
+const { generateTicket } = require("./utils/Ticket");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,6 +18,9 @@ connectDB();
 
 app.use("/api/event", userRoutes);
 app.use("/api/util", utilityRoutes);
+app.get("/", (req, res) => {
+    res.send("Welcome to the Event API!");
+});
 
 app.use(errorHandler);
 app.listen(PORT, () => {

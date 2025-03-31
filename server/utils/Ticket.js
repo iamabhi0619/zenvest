@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const Jimp = require("jimp");
+const { createCanvas, loadImage, registerFont } = require("canvas");
 const { QRCodeCanvas } = require("@loskir/styled-qr-code-node");
 const cloudinary = require("cloudinary").v2;
 
@@ -10,6 +10,9 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+// Register a font
+// registerFont(path.join(__dirname, "./Arial.ttf"), { family: "Arial" });
 
 // Generate a styled QR Code as a buffer
 const generateStyledQR = async (data) => {
@@ -48,25 +51,33 @@ const generateTicket = async (data) => {
             regNumber: regNumber,
         });
 
-        // Load ticket base image
-        const ticketImage = await Jimp.read(path.join(__dirname, "./ticketBase.png"));
-        const qrImage = await Jimp.read(qrBuffer);
+        // Load base ticket image
+        const baseImage = await loadImage(path.join(__dirname, "./ticketBase.png"));
+        const qrImage = await loadImage(qrBuffer);
 
-        // Resize and overlay QR Code
-        qrImage.resize(422, 422);
-        ticketImage.composite(qrImage, 142, 678);
+        // Create Canvas
+        const canvas = createCanvas(baseImage.width, baseImage.height);
+        const ctx = canvas.getContext("2d");
 
-        // Load font for text rendering
-        const fontLarge = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
-        const fontSmall = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE);
+        // Draw base image
+        ctx.drawImage(baseImage, 0, 0);
 
-        // Add name and registration number
-        ticketImage.print(fontLarge, 220, 1200, { text: name, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER });
-        ticketImage.print(fontSmall, 820, 1242, { text: `@${regNumber}`, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER });
+        // Draw QR Code
+        ctx.drawImage(qrImage, 142, 678, 422, 422);
+
+        // Set text styles
+        ctx.font = "80px Arial";
+        ctx.fillStyle = "#0f1c39";
+        ctx.textAlign = "center";
+        ctx.fillText(name, 353, 1242);
+
+        ctx.font = "30px Arial";
+        ctx.fillStyle = "#fff";
+        ctx.fillText(`@${regNumber}`, 850, 1242);
 
         // Save the modified image
         const ticketPath = `ticket-${Date.now()}.png`;
-        await ticketImage.writeAsync(ticketPath);
+        fs.writeFileSync(ticketPath, canvas.toBuffer("image/png"));
 
         // Upload to Cloudinary
         const uploadResponse = await cloudinary.uploader.upload(ticketPath, {

@@ -14,12 +14,12 @@
   "dependencies": {
     "@loskir/styled-qr-code-node": "^1.5.2",
     "axios": "^1.8.4",
+    "canvas": "^3.1.0",
     "cloudinary": "^2.6.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "jimp": "^1.6.0",
     "mongoose": "^8.13.0",
     "node-telegram-bot-api": "^0.66.0",
     "nodemailer": "^6.10.0",
