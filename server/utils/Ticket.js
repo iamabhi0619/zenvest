@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const sharp = require("sharp");
+const Jimp = require("jimp");
 const { QRCodeCanvas } = require("@loskir/styled-qr-code-node");
 const cloudinary = require("cloudinary").v2;
 
@@ -28,12 +28,6 @@ const generateStyledQR = async (data) => {
         cornersSquareOptions: {
             type: "square",
         },
-        // imageOptions: {
-        //     image: logoPath,
-        //     crossOrigin: "anonymous",
-        //     margin: 5,
-        //     size: 40,
-        // },
     });
     return await qrCode.toBuffer();
 };
@@ -54,26 +48,25 @@ const generateTicket = async (data) => {
             regNumber: regNumber,
         });
 
-        // Create an SVG overlay for the name
-        const svgText = `
-      <svg width="1080" height="1350">
-        <style>
-          text { font-family: Arial, sans-serif; max-width: 500px;  font-size: 80px; fill: #0f1c39; text-anchor: middle; dominant-baseline: middle; }
-          .text-2 { font-family: Arial, sans-serif; max-width: 500px;  font-size: 30px; fill: #fff; text-anchor: middle; dominant-baseline: middle; }
-        </style>
-        <text x="353" y="1242">${name}</text>
-        <text class="text-2" x="850" y="1242">@${regNumber}</text>
-      </svg>`;
+        // Load ticket base image
+        const ticketImage = await Jimp.read(path.join(__dirname, "./ticketBase.png"));
+        const qrImage = await Jimp.read(qrBuffer);
 
+        // Resize and overlay QR Code
+        qrImage.resize(422, 422);
+        ticketImage.composite(qrImage, 142, 678);
+
+        // Load font for text rendering
+        const fontLarge = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
+        const fontSmall = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE);
+
+        // Add name and registration number
+        ticketImage.print(fontLarge, 220, 1200, { text: name, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER });
+        ticketImage.print(fontSmall, 820, 1242, { text: `@${regNumber}`, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER });
+
+        // Save the modified image
         const ticketPath = `ticket-${Date.now()}.png`;
-
-        // Process the ticket image with Sharp
-        await sharp(path.join(__dirname, "./ticketBase.png"))
-            .composite([
-                { input: qrBuffer, top: 678, left: 142 }, // QR Code at (160,450)
-                { input: Buffer.from(svgText), top: 0, left: 0 }, // Name at (35,300)
-            ])
-            .toFile(ticketPath);
+        await ticketImage.writeAsync(ticketPath);
 
         // Upload to Cloudinary
         const uploadResponse = await cloudinary.uploader.upload(ticketPath, {
