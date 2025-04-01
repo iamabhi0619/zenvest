@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     regNumber: { type: String, required: true, unique: true },
     regDate: { type: Date, default: Date.now },
     ticketUrl: { type: String, default: null },
-    courses: { type: String },
+    course: { type: String },
     year: { type: Number },
     attendance: [{
         date: { type: Date, required: true },

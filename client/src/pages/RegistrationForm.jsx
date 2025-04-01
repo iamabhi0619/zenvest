@@ -140,20 +140,17 @@ export default function RegistrationForm() {
               <option value="" disabled className="bg-gray-800">
                 Select your course
               </option>
-              <option value="Computer Science" className="bg-gray-800">
-                Computer Science
+              <option value="B.Tech" className="bg-gray-800">
+                B.Tech
               </option>
-              <option value="Mechanical Engineering" className="bg-gray-800">
-                Mechanical Engineering
+              <option value="M.Tech" className="bg-gray-800">
+                M.Tech
               </option>
-              <option value="Electrical Engineering" className="bg-gray-800">
-                Electrical Engineering
+              <option value="MBA" className="bg-gray-800">
+                MBA
               </option>
-              <option value="Civil Engineering" className="bg-gray-800">
-                Civil Engineering
-              </option>
-              <option value="Business Administration" className="bg-gray-800">
-                Business Administration
+              <option value="BBA" className="bg-gray-800">
+                BBA
               </option>
               <option value="Other" className="bg-gray-800">
                 Other

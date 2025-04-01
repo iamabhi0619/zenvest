@@ -17,7 +17,17 @@ const requiredFields = {
 
 exports.createUser = async (req, res, next) => {
     try {
-        const { name, email, gender, number, regNumber, courses, year } = req.body;
+        const { name, email, gender, number, regNumber, course, year } = req.body;
+
+        // Check if the user already exists
+        const existingUser = await Workshop.findOne({ regNumber });
+        if (existingUser) {
+            return res.status(200).json({
+                success: true,
+                message: "User already exists.",
+                user: existingUser,
+            });
+        }
 
         const missingFields = Object.keys(requiredFields).filter(key => !req.body[key]);
 
@@ -29,13 +39,15 @@ exports.createUser = async (req, res, next) => {
                 `Please provide ${missingFields.map(field => requiredFields[field]).join(", ")} to proceed.`
             ));
         }
+
         // Validate phone number format (assuming a simple 10-digit validation)
         if (!/^\d{10}$/.test(number)) {
             throw new ApiError(400, "Invalid phone number format.", "validation", "invalid phone number");
         }
+
         // Create Razorpay order
         const options = {
-            amount: process.env.AMOUNT * 100, // Amount in paise
+            amount: process.env.AMOUNT * 100, // Amount in paise (e.g., 50000 paise = 500 INR)
             currency: "INR",
             receipt: `receipt_order_${Date.now()}`,
             payment_capture: 1,
@@ -47,6 +59,7 @@ exports.createUser = async (req, res, next) => {
             console.error("Error creating Razorpay order:", error);
             throw new ApiError(500, "Failed to create payment order. Please try again later.", "payment", "razorpay error");
         }
+
         // Save user registration details
         const newUser = new Workshop({
             name,
@@ -54,7 +67,7 @@ exports.createUser = async (req, res, next) => {
             gender,
             number,
             regNumber,
-            courses,
+            course,
             year,
             payment: {
                 orderId: order.id,
@@ -62,12 +75,14 @@ exports.createUser = async (req, res, next) => {
                 status: "Pending",
             },
         });
+
         try {
             await newUser.save();
         } catch (error) {
             console.error("Database error while saving user:", error);
             throw new ApiError(500, "Failed to register user. Please try again later.", "database", "database error");
         }
+
         res.status(201).json({
             success: true,
             message: "Registration successful. Complete payment to confirm registration.",
