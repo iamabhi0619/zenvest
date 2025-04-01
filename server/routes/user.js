@@ -1,10 +1,14 @@
 const express = require("express");
-const { createUser } = require("../controller/user");
+const { createUser, getUser, getAllUsers } = require("../controller/user");
 const { paymentWebhook } = require("../controller/payment");
 const router = express.Router();
 
 router.post("/register", createUser);
 // router.post("/verify", verifyPayment);
-router.post("/webhook", paymentWebhook)
+router.post("/webhook", paymentWebhook);
+
+// Add routes for getting users
+router.get("/user", getUser); // Route to get a single user by query parameters
+router.get("/users", getAllUsers); // Route to get all users
 
 module.exports = router;

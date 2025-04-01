@@ -78,3 +78,49 @@ exports.createUser = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.getUser = async (req, res, next) => {
+    try {
+        const { regNumber, email, number, orderId, paymentId } = req.query;
+
+        if (!regNumber && !email && !number && !orderId && !paymentId) {
+            return next(new ApiError(400, "At least one search parameter (regNumber, email, number, orderId, or paymentId) is required.", "validation"));
+        }
+
+        const query = {};
+        if (regNumber) query.regNumber = regNumber;
+        if (email) query.email = email;
+        if (number) query.number = number;
+        if (orderId) query["payment.orderId"] = orderId;
+        if (paymentId) query["payment.paymentId"] = paymentId;
+        const user = await Workshop.findOne(query);
+        if (!user) {
+            return next(new ApiError(404, "User not found.", "not_found"));
+        }
+        res.status(200).json({
+            success: true,
+            message: "User retrieved successfully.",
+            user,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getAllUsers = async (req, res, next) => {
+    try {
+        const users = await Workshop.find();
+
+        if (!users || users.length === 0) {
+            return next(new ApiError(404, "No users found.", "not_found"));
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Users retrieved successfully.",
+            users,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
