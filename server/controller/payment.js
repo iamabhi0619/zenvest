@@ -36,26 +36,39 @@ const handlePaymentCaptured = async (payload) => {
     try {
         const paymentId = payload.payment.entity.id;
         const orderId = payload.payment.entity.order_id;
+
+        // Update user payment status to "Completed"
         const user = await updateUserPaymentStatus(orderId, paymentId, "Completed");
 
         if (!user) return;
 
+        // Check if the ticket URL already exists in the database
+        if (user.ticketUrl) {
+            // talert.mid(`Payment success and user already has a ticket.\nTicket URL: ${user.payment.ticketUrl}`);
+            return;
+        }
+
         const totalCompletedPayments = await Workshop.countDocuments({ "payment.status": "Completed" });
 
         try {
+            // Generate ticket and store the URL in the database
             const ticketUrl = await generateTicket(user);
+            user.ticketUrl = ticketUrl; // Save the ticket URL in the user's payment object
+            await user.save();
+
+            // Send email with the ticket
             await sendEmailWithAttachment(user.email, user.name, user.regNumber, ticketUrl);
             await talert.mid(user.email, user.name, user.regNumber, ticketUrl);
         } catch (error) {
-            console.log(error);
-            talert.high(`Error sending email or generating ticket: ${ticketUrl} ${user.number}`);
+            console.error(error);
+            talert.high(`Error sending email or generating ticket:${user.ticketUrl} ${user.number}`);
         }
+
         talert.mid(`Payment success and user updated.\nTotal Completed Payments: ${totalCompletedPayments}`);
     } catch (error) {
-        talert.high(`Error handling payment capture:`);
+        talert.high(`Error handling payment capture: ${error.message}`);
     }
 };
-
 
 const handlePaymentFailed = async (payload) => {
     const paymentId = payload.payment.entity.id;

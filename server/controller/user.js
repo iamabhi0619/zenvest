@@ -35,7 +35,7 @@ exports.createUser = async (req, res, next) => {
         }
         // Create Razorpay order
         const options = {
-            amount: 1 * 100, // Amount in paise
+            amount: process.env.AMOUNT * 100, // Amount in paise
             currency: "INR",
             receipt: `receipt_order_${Date.now()}`,
             payment_capture: 1,

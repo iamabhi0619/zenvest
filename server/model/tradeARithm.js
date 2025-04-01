@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     number: { type: String, required: true },
     regNumber: { type: String, required: true, unique: true },
     regDate: { type: Date, default: Date.now },
+    ticketUrl: { type: String, default: null },
     courses: { type: String },
     year: { type: Number },
     attendance: [{
