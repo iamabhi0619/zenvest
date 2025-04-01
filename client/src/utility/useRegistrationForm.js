@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export function useRegistrationForm() {
+    const navigate = useNavigate(); // Initialize navigate
+
     useEffect(() => {
         document.title = "Register | Trade-A-Rithm";
     }, []);
@@ -53,7 +56,7 @@ export function useRegistrationForm() {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/event/register`, payload);
             const { data } = response;
             console.log(data);
-            
+
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY,
                 amount: data.user.payment.amount,
@@ -65,6 +68,16 @@ export function useRegistrationForm() {
                 handler: function (response) {
                     console.log("Payment successful:", response);
                     alert("Payment Done");
+                    setFormData({
+                        name: "",
+                        whatsapp: "",
+                        email: "",
+                        course: "",
+                        year: "",
+                        gender: "",
+                        registrationNumber: "", // Added registrationNumber field
+                    })
+                    navigate("/success"); // Redirect to Successfull page
                 },
                 prefill: {
                     name: data.user.name,
@@ -76,7 +89,7 @@ export function useRegistrationForm() {
                 },
             };
             console.log(options);
-            
+
             const razorpay = new window.Razorpay(options);
             razorpay.open();
         } catch (err) {

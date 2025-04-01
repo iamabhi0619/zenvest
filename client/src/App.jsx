@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import TradeARythmLanding from "./pages/TradeARythmLanding";
 import RegistrationForm from "./pages/RegistrationForm";
 import TermsAndConditions from "./pages/TermsAndConditions";
+import Successful from "./pages/Successful";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/event" element={<TradeARythmLanding />} />
         <Route path="/event/register" element={<RegistrationForm />} />
         <Route path="/t&c" element={<TermsAndConditions />} />
+        <Route path="/success" element={<Successful />} /> {/* Added Successfull route */}
       </Routes>
     </Router>
   );
