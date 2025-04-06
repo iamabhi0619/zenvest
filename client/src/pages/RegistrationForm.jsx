@@ -194,7 +194,14 @@ export default function RegistrationForm() {
             disabled={loading}
             className="w-full bg-red/90 hover:bg-red cursor-pointer text-white font-semibold py-3 px-6 rounded-full shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed md:col-span-2"
           >
-            {loading ? "Registering..." : "Pay ₹199"}
+            {loading ? (
+              "Registering..."
+            ) : (
+              <>
+                <span className="line-through text-gray-400 mr-2">₹199</span>
+                <span>₹149</span>
+              </>
+            )}
           </motion.button>
         </form>
       </motion.div>
