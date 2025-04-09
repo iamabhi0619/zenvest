@@ -53,7 +53,7 @@ export function useRegistrationForm() {
         };
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/event/register`, payload);
+            const response = await axios.post(`http://localhost:5000/api/event/register`, payload);
             const { data } = response;
             console.log(data);
 

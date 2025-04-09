@@ -139,3 +139,62 @@ exports.getAllUsers = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.verifyTicket = async (req, res, next) => {
+    try {
+        const { regNumber, email, phoneNumber } = req.query;
+        console.log("Query Parameters:", req.query);
+
+        // Validate input: At least one search parameter is required
+        if (!regNumber && !email && !phoneNumber) {
+            return next(new ApiError(400, "At least one search parameter (regNumber, email, or phoneNumber) is required.", "validation"));
+        }
+
+        // Build the query dynamically based on provided parameters
+        const searchCriteria = {};
+        if (regNumber) searchCriteria.regNumber = String(regNumber);
+        if (email) searchCriteria.email = String(email);
+        if (phoneNumber) searchCriteria.number = String(phoneNumber);
+
+        console.log("Search Criteria:", searchCriteria);
+
+        // Find the user in the database
+        const user = await Workshop.findOne(searchCriteria);
+        console.log("User Found:", user);
+
+        if (!user) {
+            return next(new ApiError(404, "User not found.", "not_found"));
+        }
+
+        // Check if the payment status is "Success"
+        if (user.payment.status !== "Completed") {
+            return next(new ApiError(400, "Ticket not verified. Payment is pending.", "validation"));
+        }
+
+        // Check if the ticket was already verified within the last hour
+        const currentTime = new Date();
+        const lastVerification = user.attendance?.slice(-1)[0]; // Get the last verification record
+        if (lastVerification && (currentTime - new Date(lastVerification.timestamp)) < 60 * 60 * 1000) {
+            return next(new ApiError(400, "Ticket already verified within the last hour.", "validation", "ticket_already_verified"));
+        }
+
+        // Add a new verification record to the attendance history
+        const newAttendanceRecord = {
+            timestamp: currentTime,
+        };
+        user.attendance = user.attendance || [];
+        user.attendance.push(newAttendanceRecord);
+
+        // Save the updated user
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Ticket verified successfully.",
+            user,
+        });
+    } catch (error) {
+        console.error("Error verifying ticket:", error);
+        next(error);
+    }
+};

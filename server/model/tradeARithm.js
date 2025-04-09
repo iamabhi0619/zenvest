@@ -10,8 +10,7 @@ const userSchema = new mongoose.Schema({
     course: { type: String },
     year: { type: Number },
     attendance: [{
-        date: { type: Date, required: true },
-        slot: { type: String, enum: ['Morning', 'Afternoon'], required: true }
+        timestamp: { type: Date },
     }],
     payment: {
         orderId: { type: String, required: true },
